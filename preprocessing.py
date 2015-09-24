@@ -1,7 +1,7 @@
 #!/usr/local/python-2.7.5/bin/python
 
-""" preprocess.py
-    -------------
+""" preprocessing.py
+    ----------------
     @author = Ankai Lou
 """
 

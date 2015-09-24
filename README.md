@@ -182,7 +182,7 @@ Once `classification.py` finishes execution, the results of the 2x2 experiments 
 
 2015-09-11 - Version 1.0.1
 
-* Fixed td-idf module to provide normalized scores in the range [0,1]
+* Fixed tf-idf module to provide normalized scores in the range [0,1]
 * Updated tokenization in preprocess.py to filter non-english words and shorter stems
 * Updated the feature selection process for feature vector 1 to run in minimal time
 * Finalize the construction and output of dataset1.csv

@@ -1,7 +1,7 @@
 #!/usr/local/python-2.7.5/bin/python
 
-""" feature3.py
-    -----------
+""" featurevector.py
+    ----------------
     @author = Ankai Lou
 """
 

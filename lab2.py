@@ -34,7 +34,7 @@ def main(argv):
     # print "pared down feature vectors: ", pared_feature_vectors
 
     print('\nStep 2: Classification')
-    # TODO: classification
+    classification.begin(fv, pfv)
 
 if __name__ == '__main__':
     main(sys.argv[1:])
