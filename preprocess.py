@@ -25,6 +25,12 @@ import feature2
 import feature3
 
 ###############################################################################
+############################### global variables ##############################
+###############################################################################
+
+banned_words = set()  # topics/places words not allowed in feature vector
+
+###############################################################################
 ################ function(s) for generating document objects ##################
 ###############################################################################
 
@@ -40,37 +46,55 @@ def init_document():
         @dictionary['words']['title'] is a list for the title text terms
         @dictionary['words']['body'] is a list for the body text terms
     """
-    document = { 'topics' : [], 'places' : [], 'words' : dict([]) }
+    document = { 'topics' : [], 'places' : [], 'raw_info' : dict([]), 'words' : dict([]) }
     document['words']['title'] = []
     document['words']['body']  = []
     return document
 
-def populate_class_label(document, article):
-    """ function: populate_class_label
-        ------------------------------
+###############################################################################
+########### function(s) for pre-document generation (class labels) ############
+###############################################################################
+
+def populate_raw_info(document, article):
+    """ function: populate_raw_info
+        ---------------------------
         extract topics/places from @article and fill @document
 
         :param document: formatted dictionary object representing a document
         :param article:  formatted parse tree built from unformatted data
         @article is a 'reuter' child of the original file parsetree
     """
+    # class labels
     for topic in article.topics.children:
         document['topics'].append(topic.text.encode('ascii', 'ignore'))
     for place in article.places.children:
         document['places'].append(place.text.encode('ascii', 'ignore'))
+    # raw title/body text block
+    text = article.find('text')
+    document['raw_info']['title'] = text.title
+    document['raw_info']['body'] = text.body
 
-def populate_word_list(document, article):
+def add_banned_words(document):
+    """ function: add_banned_words
+        --------------------------
+        add class label words to @banned_words list before tokenizing
+
+        :param document: formatted dictionary object representing a document
+    """
+    for word in document['topics'] + document['places']:
+        banned_words.add(word)
+
+###############################################################################
+############# function(s) for document generation (tokenization) ##############
+###############################################################################
+
+def populate_word_list(document):
     """ function: populate_word_list
         ----------------------------
         extract title/body words from @article, preprocess, and fill @document
-
-        :param document: formatted dictionary object representing a document
-        :param article:  formatted parse tree built from unformatted data
-            @article is a 'reuter' child of the original file parsetree
     """
-    text = article.find('text')
-    title = text.title
-    body = text.body
+    title = document['raw_info']['title']
+    body = document['raw_info']['body']
     if title != None:
         document['words']['title'] = tokenize(title.text)
     if body != None:
@@ -92,8 +116,10 @@ def tokenize(text):
     no_punctuation = no_digits.translate(None, string.punctuation)
     # tokenize
     tokens = nltk.word_tokenize(no_punctuation)
+    # remove class label words
+    no_class_labels = [w for w in tokens if not w in banned_words]
     # remove stopwords - assume 'reuter'/'reuters' are also irrelevant
-    no_stop_words = [w for w in tokens if not w in stopwords.words('english')]
+    no_stop_words = [w for w in no_class_labels if not w in stopwords.words('english')]
     # filter out non-english words
     eng = [y for y in no_stop_words if wordnet.synsets(y)]
     # lemmatization process
@@ -110,6 +136,10 @@ def tokenize(text):
     terms = [x for x in stems if len(x) >= 4]
     return terms
 
+###############################################################################
+################### two-step document generation functions ####################
+###############################################################################
+
 def generate_document(text):
     """ function: generate_document
         ---------------------------
@@ -119,10 +149,8 @@ def generate_document(text):
         :returns: dictionary representing fields of single document entity
     """
     document = init_document()
-    populate_class_label(document, text)
-    populate_word_list(document, text)
-    # UNCOMMENT WHEN DEBUGGING
-    # print(document)
+    populate_raw_info(document, text)
+    add_banned_words(document)
     return document
 
 ###############################################################################
@@ -162,6 +190,11 @@ def parse_documents():
         for reuter in tree.find_all("reuters"):
             document = generate_document(reuter)
             documents.append(document)
+        # generate tokenized word list for each document
+        for document in documents:
+            populate_word_list(document)
+            # UNCOMMENT WHEN DEBUGGING
+            print(document)
         print "Finished extracting information from file:", file
     return documents
 
@@ -205,18 +238,14 @@ def main(argv):
     print('Document generation complete. Building lexicon...')
     lexicon = generate_lexicon(documents)
 
-    # UNCOMMENT WHEN DEBUGGING
-    # print(len(lexicon['title']))
-    # print(len(lexicon['body']))
-
     # generate dataset 1 w tfidf (using feature1 module)
-    feature1.generate_dataset(documents, lexicon)
+    # feature1.generate_dataset(documents, lexicon)
 
     # generate dataset 2 w tfidf (using feature2 module)
-    feature2.generate_dataset(documents, lexicon)
+    # feature2.generate_dataset(documents, lexicon)
 
     # generate dataset 3 w tfidf (using feature3 module)
-    feature3.generate_dataset(documents, lexicon)
+    # feature3.generate_dataset(documents, lexicon)
 
 if __name__ == "__main__":
     main(sys.argv[1:])
