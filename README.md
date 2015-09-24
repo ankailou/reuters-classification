@@ -162,6 +162,13 @@ Once `classification.py` finishes execution, the results of the 2x2 experiments 
 * Daniel Jaung (jaung.2@osu.edu)
 
 ## Change Log
+
+2015-09-24 - version 2.0.2
+
+* added functionality for decision-tree classification
+* minor structural & organization changes to other files
+* TODO: start/finish Report2.md
+
 2015-09-24 - version 2.0.1
 
 * restructured file format for better maintainability of preprocessing & classification modules
