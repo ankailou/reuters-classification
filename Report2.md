@@ -80,11 +80,28 @@ Report 2 - Classification
 
 ## Experiments & Results
 
+Note that the results from the classification step will usually differ between iterations because the cross validation partitioning is randomized. Thus, accuracies can range from abysmal to passable. The following results were computed for each of the 2x2 experiments on the full 21 file Reuters dataset:
+
 ### Offline Cost (Scalability)
+
+* For the KNN on the standard feature vector, across 5 iterations of cross-validation,
+* For the KNN on the pared feature vector, across 5 iterations of cross-validation,
+* For the decision tree on the standard feature vector, across 5 iterations of cross-validation,
+* For the decision tree on the pared feature vector, across 5 iterations of cross-validation,
 
 ### Online Cost (Classification Time)
 
+* For the KNN on the standard feature vector, across 5 iterations of cross-validation,
+* For the KNN on the pared feature vector, across 5 iterations of cross-validation,
+* For the decision tree on the standard feature vector, across 5 iterations of cross-validation,
+* For the decision tree on the pared feature vector, across 5 iterations of cross-validation,
+
 ### Accuracy of Classification
+
+* For the KNN on the standard feature vector, across 5 iterations of cross-validation,
+* For the KNN on the pared feature vector, across 5 iterations of cross-validation,
+* For the decision tree on the standard feature vector, across 5 iterations of cross-validation,
+* For the decision tree on the pared feature vector, across 5 iterations of cross-validation,
 
 ## Interpretation of Output
 

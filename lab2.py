@@ -7,6 +7,7 @@
 
 import os
 import sys
+import time
 
 ###############################################################################
 ####### modules for the KDD process (proprocessing, classification, etc) ######
@@ -26,15 +27,13 @@ def main(argv):
 
         :param argv: commend line arguments
     """
+    start_time = time.time()
     print('Step 1: Preprocessing')
     fv, pfv = preprocessing.begin()
-
-    # UNCOMMENT WHEN DEBUGGING
-    # print "feature vectors: ", feature_vectors
-    # print "pared down feature vectors: ", pared_feature_vectors
-
     print('\nStep 2: Classification')
     classification.begin(fv, pfv)
+    end_time = time.time() - start_time
+    print '\nProcess finished in', end_time, 'seconds!'
 
 if __name__ == '__main__':
     main(sys.argv[1:])
