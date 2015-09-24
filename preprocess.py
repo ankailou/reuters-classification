@@ -20,9 +20,7 @@ from bs4 import BeautifulSoup
 ###### modules for feature selection & feature vector dataset generation ######
 ###############################################################################
 
-import feature1
-import feature2
-import feature3
+import feature_vector
 
 ###############################################################################
 ############################### global variables ##############################
@@ -194,7 +192,7 @@ def parse_documents():
         for document in documents:
             populate_word_list(document)
             # UNCOMMENT WHEN DEBUGGING
-            print(document)
+            # print(document)
         print "Finished extracting information from file:", file
     return documents
 
@@ -238,14 +236,8 @@ def main(argv):
     print('Document generation complete. Building lexicon...')
     lexicon = generate_lexicon(documents)
 
-    # generate dataset 1 w tfidf (using feature1 module)
-    # feature1.generate_dataset(documents, lexicon)
-
-    # generate dataset 2 w tfidf (using feature2 module)
-    # feature2.generate_dataset(documents, lexicon)
-
-    # generate dataset 3 w tfidf (using feature3 module)
-    # feature3.generate_dataset(documents, lexicon)
+    # preprocessing phase finished. begin feature selection phase
+    feature_vector.generate(documents, lexicon)
 
 if __name__ == "__main__":
     main(sys.argv[1:])

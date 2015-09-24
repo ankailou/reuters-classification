@@ -16,21 +16,23 @@ import operator
 ########## global variables for single-point of control over change ###########
 ###############################################################################
 
-datafile = 'dataset3.csv'
+datafile = 'dataset1.csv'
+pared_datafile = 'dataset2.csv'
 
 ###############################################################################
 ############### function for printing dataset to .csv document ################
 ###############################################################################
 
-def generate_csv(documents, features, weights):
+def generate_csv(file, documents, features, weights):
     """ function: generate_csv
         ----------------------
         print feature vectors & class labels to .csv file
 
+        :param file: string representing file to write
         :param documents: dictionary of document objects
         :param features: sorted list of features to represent
     """
-    dataset = open(datafile, "w")
+    dataset = open(file, "w")
     dataset.write('id\t')
     for feature in features:
         dataset.write(feature)
@@ -66,13 +68,19 @@ def select_features(weights):
         :returns: sorted list of terms representing the selected features
     """
     features = set()
+    scores = dict([])
+    # generate normal feature vector
     for doc, doc_dict in weights.iteritems():
         top = dict(sorted(doc_dict.iteritems(), key=operator.itemgetter(1), reverse=True)[:5])
         for term, score in top.iteritems():
             if score > 0.0:
                 features.add(term)
-    # sort set into list
-    return sorted(features)
+                scores[term] = score
+    # pare down feature vector to 10%
+    new_size = len(features) / 10
+    pared_features = dict(sorted(scores.iteritems(), key=operator.itemgetter(1), reverse=True)[:new_size])
+    # sort sets into list
+    return sorted(features), sorted(pared_features)
 
 ###############################################################################
 ############## function(s) for generating weighted tf-idf scores ##############
@@ -100,9 +108,9 @@ def generate_weights(documents):
 ################ main function for generating refined dataset #################
 ###############################################################################
 
-def generate_dataset(documents, lexicon):
-    """ function: generate_dataset
-        --------------------------
+def generate(documents, lexicon):
+    """ function: generate
+        ------------------
         select features from @lexicon for feature vectors
         generate dataset of feature vectors for @documents
 
@@ -122,9 +130,15 @@ def generate_dataset(documents, lexicon):
 
     # generate feature list
     print 'Selecting features for the feature vectors @', datafile
-    features = select_features(weight_dict)
+    features, pared_features = select_features(weight_dict)
 
     # write vectors to dataset1.csv
     print 'Writing feature vector data @', datafile
-    generate_csv(documents, features, weight_dict)
+    generate_csv(datafile, documents, features, weight_dict)
     print 'Finished generating dataset @', datafile
+
+    # write pared vectors to dataset2.csv
+    print 'Writing feature vector data @', pared_datafile
+    generate_csv(pared_datafile, documents, pared_features, weight_dict)
+    print 'Finished generating dataset @', pared_datafile
+
