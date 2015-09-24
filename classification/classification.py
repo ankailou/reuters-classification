@@ -23,8 +23,8 @@ import sklearn
 ############################### global variables ##############################
 ###############################################################################
 
-num_partitions = 5
-num_neighbors = 3
+num_partitions = 5  # number of partition used in cross validation
+num_neighbors = 3   # number of neighbors to find in knn classification
 
 ###############################################################################
 ############# function(s) for generating training & testing sets ##############

@@ -129,7 +129,7 @@ To run the code, first ensure the `preprocess.py` file has execute privileges:
 > chmod +x preprocess.py
 ```
 
-Next, ensure the `preprocessing.py`, `featurevector.py`, and `classification.py` files are in the same directory as `lab2.py`. Also,
+Next, ensure the `preprocessing.py`, `featurevector.py`, and `classification.py` files are in their correct directories with respect to `lab2.py` (based on the file tree in the overview). Also,
 ensure there is a `data/` directory in the same folder as `preprocess.py` and the `data/` directory containing the `reut2-xxx.sgm` files is present. To begin preprocessing the data, run:
 
 ```
@@ -150,7 +150,7 @@ Once `preprocessing.py` finishes execution, two datasets files are generated (`d
 > less datasets/datasetX.csv
 ```
 
-where `X` is replaced with 1, 2, or 3 depending on the dataset.
+where `X` is replaced with 1 or 2 depending on the dataset.
 
 Once `classification.py` finishes execution, the results of the 2x2 experiments will be outputted to the terminal.
 
@@ -162,6 +162,13 @@ Once `classification.py` finishes execution, the results of the 2x2 experiments 
 * Daniel Jaung (jaung.2@osu.edu)
 
 ## Change Log
+2015-09-24 - version 2.0.1
+
+* restructured file format for better maintainability of preprocessing & classification modules
+* added functionality for knn classification in classification.py
+* minor structural & semantical changes to other files
+* TODO: Report2.md & decision tree classification
+
 2015-09-24 - version 2.0.0
 
 * cleaned up preprocessing to meet expected criterion
