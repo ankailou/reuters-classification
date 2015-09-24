@@ -237,7 +237,11 @@ def main(argv):
     lexicon = generate_lexicon(documents)
 
     # preprocessing phase finished. begin feature selection phase
-    feature_vector.generate(documents, lexicon)
+    feature_vectors, pared_feature_vectors = feature_vector.generate(documents, lexicon)
+
+    # UNCOMMENT WHEN DEBUGGING
+    print "feature vectors: ", feature_vectors
+    print "pared down feature vectors: ", pared_feature_vectors
 
 if __name__ == "__main__":
     main(sys.argv[1:])

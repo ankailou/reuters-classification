@@ -19,18 +19,24 @@ import operator
 datafile = 'dataset1.csv'
 pared_datafile = 'dataset2.csv'
 
+feature_vectors = dict([])
+pared_feature_vectors = dict([])
+
 ###############################################################################
 ############### function for printing dataset to .csv document ################
 ###############################################################################
 
-def generate_csv(file, documents, features, weights):
+def generate_csv(file, documents, features, weights, fv):
     """ function: generate_csv
         ----------------------
         print feature vectors & class labels to .csv file
+        concurrently generating feature vector dictionary
 
         :param file: string representing file to write
         :param documents: dictionary of document objects
         :param features: sorted list of features to represent
+        :param weights: 2d dictionary of document/word tfidf scores
+        :param fv: feature vector dictionary to generate concurrently
     """
     dataset = open(file, "w")
     dataset.write('id\t')
@@ -42,13 +48,21 @@ def generate_csv(file, documents, features, weights):
     dataset.write('\n')
     # feature vector for each document
     for i, document in enumerate(documents):
+        # generate document element in fv
+        fv[i] = { 'feature_vector' : [] }
         # document id number
         dataset.write(str(i))
         dataset.write('\t')
         # each tf-idf score
         for feature in features:
+            # append to fv list
+            fv[i]['feature_vector'].append(weights[i][feature])
+            # write to file
             dataset.write(str(weights[i][feature]))
             dataset.write('\t')
+        # generate topic/places in fv
+        fv[i]['topics'] = document['topics']
+        fv[i]['places'] = document['places']
         # topics/places class labels
         dataset.write(str(document['topics']))
         dataset.write(str(document['places']))
@@ -134,11 +148,12 @@ def generate(documents, lexicon):
 
     # write vectors to dataset1.csv
     print 'Writing feature vector data @', datafile
-    generate_csv(datafile, documents, features, weight_dict)
+    generate_csv(datafile, documents, features, weight_dict, feature_vectors)
     print 'Finished generating dataset @', datafile
 
     # write pared vectors to dataset2.csv
     print 'Writing feature vector data @', pared_datafile
-    generate_csv(pared_datafile, documents, pared_features, weight_dict)
+    generate_csv(pared_datafile, documents, pared_features, weight_dict, pared_feature_vectors)
     print 'Finished generating dataset @', pared_datafile
 
+    return feature_vectors, pared_feature_vectors
