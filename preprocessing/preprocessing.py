@@ -26,6 +26,7 @@ import featurevector
 ############################### global variables ##############################
 ###############################################################################
 
+datapath = "data"
 banned_words = set()  # topics/places words not allowed in feature vector
 
 ###############################################################################
@@ -178,9 +179,10 @@ def parse_documents():
     """
     documents = []
     # generate well-formatted document set for each file
-    for file in os.listdir('data'):
+    for file in os.listdir(datapath):
         # open 'reut2-XXX.sgm' file from /data directory
-        data = open(os.path.join(os.getcwd(), "data", file), 'r')
+        path = os.path.join(os.getcwd(), datapath, file)
+        data = open(path, 'r')
         text = data.read()
         data.close()
         tree = generate_tree(text.lower())

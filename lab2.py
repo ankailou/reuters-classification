@@ -12,8 +12,8 @@ import sys
 ####### modules for the KDD process (proprocessing, classification, etc) ######
 ###############################################################################
 
-import preprocessing
-import classification
+from preprocessing import preprocessing
+from classification import classification
 
 ###############################################################################
 ################## main function = single point of execution ##################

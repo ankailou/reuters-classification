@@ -16,8 +16,8 @@ import operator
 ########## global variables for single-point of control over change ###########
 ###############################################################################
 
-datafile = 'dataset1.csv'
-pared_datafile = 'dataset2.csv'
+datafile = 'datasets/dataset1.csv'
+pared_datafile = 'datasets/dataset2.csv'
 
 feature_vectors = dict([])
 pared_feature_vectors = dict([])
@@ -38,6 +38,11 @@ def generate_csv(file, documents, features, weights, fv):
         :param weights: 2d dictionary of document/word tfidf scores
         :param fv: feature vector dictionary to generate concurrently
     """
+    # generate path if necessary
+    path = os.path.join(os.getcwd(), 'datasets')
+    if not os.path.isdir(path):
+        os.makedirs(path)
+    # generate dataset & feature vector dict
     dataset = open(file, "w")
     dataset.write('id\t')
     for feature in features:
