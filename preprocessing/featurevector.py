@@ -136,7 +136,7 @@ def generate(documents, lexicon):
         :param documents: list of well-formatted, processable documents
         :param lexicon:   list of word stems for selecting features
     """
-    print 'Generating dataset @', datafile
+    print 'Generating feature vectors & datasets...'
     words, weights = generate_weights(documents)
 
     # generate dictionary for feature selection
@@ -148,7 +148,7 @@ def generate(documents, lexicon):
             weight_dict[i][word] = weight_array[i][j]
 
     # generate feature list
-    print 'Selecting features for the feature vectors @', datafile
+    print('Selecting features for the feature vectors...')
     features, pared_features = select_features(weight_dict)
 
     # write vectors to dataset1.csv
