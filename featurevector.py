@@ -131,7 +131,7 @@ def generate(documents, lexicon):
         :param documents: list of well-formatted, processable documents
         :param lexicon:   list of word stems for selecting features
     """
-    print '\nGenerating dataset @', datafile
+    print 'Generating dataset @', datafile
     words, weights = generate_weights(documents)
 
     # generate dictionary for feature selection

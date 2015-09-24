@@ -1,5 +1,5 @@
-Lab 1 - Preprocessing Data
-==========================
+Lab 2 - Classifying Data
+========================
 
 ## Table of Contents
 1. [Overview](#overview)
@@ -9,35 +9,27 @@ Lab 1 - Preprocessing Data
 5. [Change Log](#change log)
 
 ## Overview
-The purpose of this module is to preprocess a set of SGML documents representing a Reuters article database into a dataset of feature vectors and class labels. The datasets will be employed in future assignments for automated categorization, similarity search, and building document graphs.
+The purpose of this module is to implement two classifiers (knn, decision tree) on the feature vectors generated in lab 1. This module is built on the preprocessing module that sanitized a set of SGML documents representing a Reuters article database into a dataset of feature vectors and class labels. The results of the classifiers will be employed in future assignments for automated categorization, similarity search, and building document graphs.
 
 ## Description
 This python module contains the following files and directories:
 
-* preprocess.py - main module for preprocessing the Reuters article database
-* feature1.py - sub-module that generates feature vector dataset #1
-* feature2.py - sub-module that generates feature vector dataset #2
-* feature3.py - sub-module that generates feature vector dataset #3
-* tfidf.py - module for term frequency-inverse document frequency
+* lab2.py - main module for KDD process
+* preprocessing.py - module for preprocessing the Reuters article database
+* featurevector.py - sub-module that generates the two feature vector datasets
+* classification.py - module for classification of the feature vector datasets
 * data/
     * reut2-xxx.sgm - formatted articles (replace xxx from {000,...,021})
 
-Running `preprocess.py` will generate the following files
+The `preprocessing.py` file will generate the following files
 
-* dataset1.csv
-* dataset2.csv
-* dataset3.csv
+* dataset1.csv - regular feature vector set
+* dataset2.csv - pared down version of feature vector in dataset1.csv
 
 The feature vectors in the datasets were generated using the following methodologies
 
-* TF-IDF of title & body words to select the top 1000 words as features
-* Filtering nouns & verbs from the term lists, and repeating the previous process
-
-For a more detailed report of the methodology used to sanitize and construct these refined datasets and feature vectors, read the file in this project titled `Report1.md` using the following command
-
-```
-> less Report1.md
-```
+* TF-IDF of title & body words to select the top 5 words of each document features
+* Feature reduction process of paring down original feature vector to 10% original size
 
 Potential additional to future iterations of feature vector generation:
 
@@ -46,6 +38,19 @@ Potential additional to future iterations of feature vector generation:
 * stratified sampling: starting letter, stem, etc.
 * binning: equal-width & equal-depth (grouping by topics/places, part-of-speech, etc)
 * entropy-based discretization (partitioning based on entropy calculations)
+
+The `classification.py` file will produce the following 2x2 experiement results:
+
+* KNN for feature vector 1
+* KNN for feature vector 2
+* Decision Tree for feature vector 1
+* Decision Tree for feature vector 2
+
+For more information on how these classifiers were implemented and the offline/online costs, use the command:
+
+```
+> less Report2.md
+```
 
 ## Usage
 This module relies on several libraries to perform preprocessing, before anything:
@@ -70,6 +75,7 @@ From the download window, ensure `punkt`, `wordnet` and `stopwords` are download
 ---------------------------------------------------------------------------
     d) Download   l) List    u) Update   c) Config   h) Help   q) Quit
 ---------------------------------------------------------------------------
+Downloader> d
 Download which package (l=list; x=cancel)?
   Identifier> punkt
     Downloading package punkt to /home/3/loua/nltk_data...
@@ -107,34 +113,42 @@ Next, ensure BeautifulSoup4 is installed:
 > pip install beautifulsoup4
 ```
 
+Lastly, ensure scikit-learn is installed:
+
+```
+> pip install scikit-learn
+```
+
 To run the code, first ensure the `preprocess.py` file has execute privileges:
 
 ```
 > chmod +x preprocess.py
 ```
 
-Next, ensure the `tfidf.py`, `feature1.py`, `feature2.py`, and `feature3.py` files are in the same directory as `preprocess.py`. Also,
+Next, ensure the `preprocessing.py`, `featurevector.py`, and `classification.py` files are in the same directory as `lab2.py`. Also,
 ensure there is a `data/` directory in the same folder as `preprocess.py` and the `data/` directory containing the `reut2-xxx.sgm` files is present. To begin preprocessing the data, run:
 
 ```
-> python preprocess.py
+> python lab2.py
 ```
 
 or
 
 ```
-> ./preprocess.py
+> ./lab2.py
 ```
 
-The preprocessing might take some time to complete.
+The preprocessing and classification might take some time to complete.
 
-Once `preprocess.py` finishes execution, three datasets are generated by the code labeled `dataset1.csv`, `dataset2.csv`, and `dataset3.csv` in the project directory (same folder as `preprocess.py`). To view these datasets, run:
+Once `preprocessing.py` finishes execution, three datasets are generated by the code labeled `dataset1.csv`, `dataset2.csv`, and `dataset3.csv` in the project directory (same folder as `preprocess.py`). To view these datasets, run:
 
 ```
 > less datasetX.csv
 ```
 
 where `X` is replaced with 1, 2, or 3 depending on the dataset.
+
+Once `classification.py` finishes execution, the results of the 2x2 experiments will be outputted to the terminal.
 
 ## Development
 * This module was developed using python 2.7.10 using the NLTK and BeautifulSoup4 modules.
@@ -144,6 +158,13 @@ where `X` is replaced with 1, 2, or 3 depending on the dataset.
 * Daniel Jaung (jaung.2@osu.edu)
 
 ## Change Log
+2015-09-24 - version 2.0.0
+
+* cleaned up preprocessing to meet expected criterion
+* added lab2.py for single-point-of-control over change
+* reduced feature vector generation to one method + paring
+* TODO: Report2.md and classification process
+
 2015-09-11 - version 1.0.3
 
 * Finalize the construction of output of dataset3.csv

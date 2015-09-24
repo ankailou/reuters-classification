@@ -20,7 +20,7 @@ from bs4 import BeautifulSoup
 ###### modules for feature selection & feature vector dataset generation ######
 ###############################################################################
 
-import feature_vector
+import featurevector
 
 ###############################################################################
 ############################### global variables ##############################
@@ -220,13 +220,11 @@ def generate_lexicon(documents):
 ################## main function - single point of execution ##################
 ###############################################################################
 
-def main(argv):
-    """ function: main
-        --------------
+def begin():
+    """ function: begin
+        ---------------
         sanitize input files into well-formatted, processable objects
         generate dataset (feature vectors, class labels) for .sgm file set:
-
-        :param argv: command line arguments - no purpose at the moment
     """
     # generate list of document objects for feature selection
     print('Generating document objects. This may take some time...')
@@ -237,11 +235,8 @@ def main(argv):
     lexicon = generate_lexicon(documents)
 
     # preprocessing phase finished. begin feature selection phase
-    feature_vectors, pared_feature_vectors = feature_vector.generate(documents, lexicon)
+    print('Lexicon generation complete. Generating feature vectors...')
+    feature_vectors, pared_feature_vectors = featurevector.generate(documents, lexicon)
 
-    # UNCOMMENT WHEN DEBUGGING
-    print "feature vectors: ", feature_vectors
-    print "pared down feature vectors: ", pared_feature_vectors
-
-if __name__ == "__main__":
-    main(sys.argv[1:])
+    print('Feature vector generation complete. Preprocessing phase complete!')
+    return feature_vectors, pared_feature_vectors
