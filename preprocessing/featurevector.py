@@ -7,8 +7,6 @@
 
 import os
 import sys
-import string
-import nltk
 from sklearn.feature_extraction.text import TfidfVectorizer
 import operator
 
@@ -60,15 +58,12 @@ def generate_csv(file, documents, features, weights, fv):
         dataset.write('\t')
         # each tf-idf score
         for feature in features:
-            # append to fv list
             fv[i]['feature_vector'].append(weights[i][feature])
-            # write to file
             dataset.write(str(weights[i][feature]))
             dataset.write('\t')
         # generate topic/places in fv
         fv[i]['topics'] = document['topics']
         fv[i]['places'] = document['places']
-        # topics/places class labels
         dataset.write(str(document['topics']))
         dataset.write(str(document['places']))
         dataset.write('\n')
@@ -138,7 +133,6 @@ def generate(documents, lexicon):
     """
     print 'Generating feature vectors & datasets...'
     words, weights = generate_weights(documents)
-
     # generate dictionary for feature selection
     weight_array = weights.toarray()
     weight_dict = dict([])
@@ -146,19 +140,15 @@ def generate(documents, lexicon):
         weight_dict[i] = dict([])
         for j, word in enumerate(words):
             weight_dict[i][word] = weight_array[i][j]
-
     # generate feature list
     print('Selecting features for the feature vectors...')
     features, pared_features = select_features(weight_dict)
-
     # write vectors to dataset1.csv
     print 'Writing feature vector data @', datafile
     generate_csv(datafile, documents, features, weight_dict, feature_vectors)
     print 'Finished generating dataset @', datafile
-
     # write pared vectors to dataset2.csv
     print 'Writing feature vector data @', pared_datafile
     generate_csv(pared_datafile, documents, pared_features, weight_dict, pared_feature_vectors)
     print 'Finished generating dataset @', pared_datafile
-
     return feature_vectors, pared_feature_vectors

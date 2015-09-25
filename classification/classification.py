@@ -8,7 +8,6 @@
 import os
 import sys
 import time
-import string
 import random
 import operator
 import math
@@ -217,7 +216,7 @@ def k_nearest_neighbor(partitions):
             if len(set(labels) & set(fv['topics'])) > 0:
                 accuracy += 1.0
         average_accuracy += accuracy / len(test)
-        print 'Total accuracy of trial', i, '-', accuracy
+        print 'Total accuracy of trial', i, '-', accuracy / len(test)
         online_total = time.time() - online_start
         average_online += online_total
         print 'Online cost for trial', i, '-', online_total, 'seconds'
@@ -241,22 +240,18 @@ def begin(feature_vectors, pared_feature_vectors):
         :param feature_vectors: standard dataset generated using tf-idf
         :param pared_feature_vectors: pared down version of @feature_vectors
     """
-
     # extract out vectors with empty 'topics' class labels
     fv, efv = filter_empty(feature_vectors)
     pfv, epfv = filter_empty(pared_feature_vectors)
-
     # implement cross validation with n = 5 or n = 10
     fv_partitions = partition(fv)
     pfv_partitions = partition(pfv)
-
     # knn on @feature_vectors
     print('Experiment: k-nearest-neighbor on standard feature vector...')
     k_nearest_neighbor(fv_partitions)
     # knn on @pared_feature_vectors
     print('Experiment: k-nearest-neighbor on pared down feature vector...')
     k_nearest_neighbor(pfv_partitions)
-
     # decision-tree on @feature_vectors
     print('Experiment: decision tree on standard feature vector...')
     decision_tree(fv_partitions)

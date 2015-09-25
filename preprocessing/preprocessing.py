@@ -7,8 +7,8 @@
 
 import os
 import sys
-import string
 import nltk
+import string
 import threading # will potentially use multi-threading
 from nltk.stem.porter import *
 from nltk.corpus import stopwords
@@ -107,33 +107,29 @@ def tokenize(text):
         :param text: string representing text field (title or body)
         :returns: list of strings of tokenized & sanitized words
     """
-    # encode unicode to string
     ascii = text.encode('ascii', 'ignore')
-    # remove digits
+    # remove digits & punctuation
     no_digits = ascii.translate(None, string.digits)
-    # remove punctuation
     no_punctuation = no_digits.translate(None, string.punctuation)
-    # tokenize
+    # separate text blocks into tokens
     tokens = nltk.word_tokenize(no_punctuation)
-    # remove class label words
+    # remove class labels, stopwords, and non-english words
     no_class_labels = [w for w in tokens if not w in banned_words]
-    # remove stopwords - assume 'reuter'/'reuters' are also irrelevant
     no_stop_words = [w for w in no_class_labels if not w in stopwords.words('english')]
-    # filter out non-english words
     eng = [y for y in no_stop_words if wordnet.synsets(y)]
-    # lemmatization process
+    # lemmatization
     lemmas = []
     lmtzr = WordNetLemmatizer()
     for token in eng:
         lemmas.append(lmtzr.lemmatize(token))
-    # stemming process
+    # stemming
     stems = []
     stemmer = PorterStemmer()
     for token in lemmas:
-        stems.append(stemmer.stem(token).encode('ascii','ignore'))
-    # remove short stems
-    terms = [x for x in stems if len(x) >= 4]
-    return terms
+        stem = stemmer.stem(token).encode('ascii', 'ignore')
+        if len(stem) >= 4:
+            stems.append(stem)
+    return stems
 
 ###############################################################################
 ################### two-step document generation functions ####################
@@ -181,7 +177,7 @@ def parse_documents():
     # generate well-formatted document set for each file
     for file in os.listdir(datapath):
         # open 'reut2-XXX.sgm' file from /data directory
-        path = os.path.join(os.getcwd(), datapath, file)
+        path = os.path.join(datapath, file)
         data = open(path, 'r')
         text = data.read()
         data.close()
@@ -231,14 +227,11 @@ def begin():
     # generate list of document objects for feature selection
     print('Generating document objects. This may take some time...')
     documents = parse_documents()
-
     # generate lexicon of unique words for feature reduction
     print('Document generation complete. Building lexicon...')
     lexicon = generate_lexicon(documents)
-
     # preprocessing phase finished. begin feature selection phase
     print('Lexicon generation complete. Generating feature vectors...')
     feature_vectors, pared_feature_vectors = featurevector.generate(documents, lexicon)
-
     print('Feature vector generation complete. Preprocessing phase complete!')
     return feature_vectors, pared_feature_vectors
