@@ -80,31 +80,76 @@ Report 2 - Classification
 
 ## Experiments & Results
 
-Note that the results from the classification step will usually differ between iterations because the cross validation partitioning is randomized. Thus, accuracies can range from abysmal to passable. The following results were computed for each of the 2x2 experiments on the full 21 file Reuters dataset:
+Note that the results from the classification step will usually differ between iterations because the cross validation partitioning is randomized. Thus, accuracies can range from abysmal to passable. The following results were computed for each of the 2x2 experiments on 1 file in the Reuters dataset:
 
 ### Offline Cost (Scalability)
 
-* For the KNN on the standard feature vector, across 5 iterations of cross-validation,
-* For the KNN on the pared feature vector, across 5 iterations of cross-validation,
-* For the decision tree on the standard feature vector, across 5 iterations of cross-validation,
-* For the decision tree on the pared feature vector, across 5 iterations of cross-validation,
+* For the KNN on the standard feature vector, across 5 iterations of cross-validation, the offline costs were 3.81469726562e-06, 1.28746032715e-05, 1.28746032715e-05, 5.91278076172e-05, and 1.62124633789e-05 seconds.
+* For the KNN on the pared feature vector, across 5 iterations of cross-validation, the offline costs were 9.05990600586e-06, 1.00135803223e-05, 2.19345092773e-05, 1.00135803223e-05, and 1.00135803223e-05 seconds. 
+* For the decision tree on the standard feature vector, across 5 iterations of cross-validation, the offline costs were 0.113656997681, 0.122953176498, 0.110245943069, 0.101885080338, and 0.118744134903 seconds. 
+* For the decision tree on the pared feature vector, across 5 iterations of cross-validation, the offline costs were 0.0163049697876, 0.0159809589386, 0.0168070793152, 0.0148220062256, and 0.0160479545593 seconds.
+
+The averages of the 2x2 experiment set is represented with the table:
+
+     | Feature Vector 1     | Feature Vector 2
+---- | -------------------- | -----------------
+KNN  | 2.09808349609e-05 s  | 1.220703125e-05 s
+Tree | 0.113497066498 s     | 0.0159925937653 s
+
+From here, we can make the following observations:
+
+* Paring down the feature vector does not lead to a significant change in offline cost for the KNN-classifier; this is because model construction for KNN is simply adding the training space into a list - which is not dependent on the number of features.
+* Paring down the feature vector leads to a reduction in offline cost for the decision-tree classifier by an order of magnitude consistent with how much the features were reduced; this is because the relative height of the decision tree is linearly dependent on the number of features in the feature vector. Thus, there is a gain in scalability when a pared down feature vector is used for the decision tree.
+* In general, the offline cost for the decision tree was greater than the offline cost for the KNN-classifier by 3 to 4 orders of magnitude. This means that model construction is far simpler and faster for the KNN-classifier.   
 
 ### Online Cost (Classification Time)
 
-* For the KNN on the standard feature vector, across 5 iterations of cross-validation,
-* For the KNN on the pared feature vector, across 5 iterations of cross-validation,
-* For the decision tree on the standard feature vector, across 5 iterations of cross-validation,
-* For the decision tree on the pared feature vector, across 5 iterations of cross-validation,
+* For the KNN on the standard feature vector, across 5 iterations of cross-validation, the online costs were 27.4860038757, 29.0641348362, 30.7863907814, 29.2113089561, and 30.0259530544 seconds.
+* For the KNN on the pared feature vector, across 5 iterations of cross-validation, the online costs were 3.48056292534, 3.6446480751, 3.68867111206, 3.61712503433, and 3.38688397408 seconds.
+* For the decision tree on the standard feature vector, across 5 iterations of cross-validation, the online costs were 0.0267839431763, 0.020122051239, 0.0214660167694, 0.0195162296295, and 0.0245912075043 seconds.
+* For the decision tree on the pared feature vector, across 5 iterations of cross-validation, the online costs were 0.00739312171936, 0.00783205032349, 0.00714898109436, 0.00731086730957, and 0.0107901096344 seconds.
+
+The averages of the 2x2 experiment set is represented with the table:
+
+     | Feature Vector 1  | Feature Vector 2
+---- | ----------------- | -----------------
+KNN  | 29.3147583008 s   | 3.56357822418 s
+Tree | 0.0224958896637 s | 0.00809502601624 s
+
+From here, we can make the following observations:
+
+* Paring down the feature vector improves the online cost for KNN by an order of magnitude. This is because there are far fewer computations required to compute Euclidean distance. In general, the KNN classifier for both the standard and pared-down feature vector are both abysmal in terms of online performance - especially when considering scalability (as the online cost scales with respect to both the dataset size and the feature vector size).
+* Paring down the feature vector improves the online cost for the decision tree by an order of magnitude. This is because the height of the tree is dependent on the feature vector size; thus, a single traversal of the tree also scales linearly with respect to the features.
+* The online cost of the decision-tree classifier is better than the online cost of the KNN-classifier by 3 to 4 orders of magnitude. This is because the decision tree model is far more sophisticated than the KNN model and requires far few computations/comparisons to classify a feature vector. When scaled up to a larger dataset - online cost becomes the primary metric for determining speed (since offline cost is small for both classifiers).
 
 ### Accuracy of Classification
 
-* For the KNN on the standard feature vector, across 5 iterations of cross-validation,
-* For the KNN on the pared feature vector, across 5 iterations of cross-validation,
-* For the decision tree on the standard feature vector, across 5 iterations of cross-validation,
-* For the decision tree on the pared feature vector, across 5 iterations of cross-validation,
+* For the KNN on the standard feature vector, across 5 iterations of cross-validation, the accuracies of the classifier were 58.0, 62.0, 84.0, 87.0, and 85.0 percent across each of the iterations.
+* For the KNN on the pared feature vector, across 5 iterations of cross-validation, the accuracies of the classifier were 66.0, 64.0, 60.0, 56.0, and 61.0 percent across each of the iterations.
+* For the decision tree on the standard feature vector, across 5 iterations of cross-validation, the accuracies of the classifier were 39.0, 11.0, 4.0, 5.0, and 46.0 percent across each of the iterations.
+* For the decision tree on the pared feature vector, across 5 iterations of cross-validation, the accuracies of the classifier were 35.0, 22.0, 3.0, 17.0, and 25.0 percent across each of the iterations.
+
+The averages of the 2x2 experiment set is represented with the table:
+
+     | Feature Vector 1  | Feature Vector 2
+---- | ----------------- | -----------------
+KNN  | 0.723076923077    | 0.590384615385
+Tree | 0.201923076923    | 0.196153846154
+
+From here, we can make the following observations:
+
+* Paring down the feature vector leads to the slight performance drop in the KNN-classifier. This is because loss of dimensionality leads to less granular data - leading to less precise classifications of the testing data.
+* Paring down the feature vector does not lead to a performance change in the decision-tree classifier.
+* The KNN-classifier performed far better and far more consistently than the decision-tree classifier. This is likely due to the breadth of the computation that KNN performs as opposed to the decision-tree.
 
 ## Interpretation of Output
 
-### Benefits
+* The offline costs for both the KNN-classifier and the decision-tree classifier were both very small - even when scaled up to a larger dataset. This means that offline cost is not a good metric for measuring classifier quality in this case.
+* Paring down the feature vector affected the offline cost for the decision by an order of magnitude - which means feature reduction is good for scalability for the decision-tree classifier. The KNN classifier was not affected.
 
-### Detriments
+* The online cost for the decision tree was far better than the online cost for the KNN-classifier. Therefore, if speed is a concern, then the decision-tree classifier should definitely be used over the KNN classifier.
+* Paring down the feature vector led to an improvement in online cost in both classifiers by an order of magnitude. Therefore, if speed is a concern, then it is beneficial to pare down the vector for both classifiers.
+
+* Paring down the feature vector led to a slight decrease in accuracy in the KNN-classifier and no change in the decision-tree classifier. Thus, if accuracy is a concern, it is preferable to not pare down the feature vector for KNN.
+* The KNN-classifier was far more accurate than the decision-tree classifer. This is expected as the online costs were far larger for the KNN-classifier. If accuracy is a concern, then the KNN classifier should be chosen over the decision-tree.
+* The decision tree is a far less stable classifier than the KNN classifier in terms of accuracy. Perhaps this is due to underfitting for certain iterations of cross validation. Either way, the accuracy of the decision tree is clearly inferior to the KNN classifier even when scaled up to a much larger dataset. If accuracy is the primary metric for the quality of the classifier, a decision tree should not be chosen - or a better sample size should be used to prevent underfitting and overfitting.
