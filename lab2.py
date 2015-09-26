@@ -9,7 +9,6 @@
 ############## modules & libraries required for the KDD process ###############
 ###############################################################################
 
-import os
 import sys
 import time
 

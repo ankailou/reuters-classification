@@ -32,6 +32,13 @@ This python module contains the following files and directories:
 * classification/
     * \_\_init\_\_.py
     * classification.py - module for classification of the feature vector datasets
+    * crossvalidator/
+        * \_\_init\_\_.py
+        * crossvalidator.py - submodule containing functionality for cross validation 
+    * classifiers
+        * \_\_init\_\_.py
+        * knearestneighbor.py - submodule for knn classification
+        * decisiontree.py - submodule for decision tree classification 
 * data/
     * reut2-xxx.sgm - formatted articles (replace xxx from {000,...,021})
 
@@ -139,7 +146,7 @@ To run the code, first ensure the `preprocess.py` file has execute privileges:
 > chmod +x preprocess.py
 ```
 
-Next, ensure the `preprocessing.py`, `featurevector.py`, and `classification.py` files are in their correct directories with respect to `lab2.py` (based on the file tree in the overview). Also,
+Next, ensure the `preprocessing/` and `classification/` directories and their filetrees are correct with respect to `lab2.py` (based on the file tree in the overview). Also,
 ensure there is a `data/` directory in the same folder as `preprocess.py` and the `data/` directory containing the `reut2-xxx.sgm` files is present. To begin preprocessing the data, run:
 
 ```

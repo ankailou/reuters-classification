@@ -9,8 +9,6 @@
 ############## modules & libraries required for tf-idf analysis ###############
 ###############################################################################
 
-import os
-import sys
 from sklearn.feature_extraction.text import TfidfVectorizer
 
 ###############################################################################

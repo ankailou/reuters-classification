@@ -9,8 +9,6 @@
 ############### modules & libraries required for text extraction ##############
 ###############################################################################
 
-import os
-import sys
 import nltk
 import string
 from nltk.stem.porter import *

@@ -6,11 +6,10 @@
 """
 
 ###############################################################################
-####### modules & libraries required for feature reduction & selection ########
+############## module & libraries required for printing datasets ##############
 ###############################################################################
 
 import os
-import sys
 
 ###############################################################################
 ######### modules for weighting, feature selection & feature vectors ##########
@@ -30,7 +29,7 @@ pared_datafile = 'datasets/dataset2.csv'
 ############### function for printing dataset to .csv document ################
 ###############################################################################
 
-def generate_csv(file, features, feature_vectors):
+def __generate_csv(file, features, feature_vectors):
     """ function: generate_csv
         ----------------------
         print feature vectors & class labels to .csv file
@@ -86,10 +85,10 @@ def generate(documents, lexicon):
     selector = FeatureSelector(weights.table,documents)
     # write vectors to dataset1.csv
     print 'Writing feature vector data @', datafile
-    generate_csv(datafile, selector.features, selector.feature_vectors)
+    __generate_csv(datafile, selector.features, selector.feature_vectors)
     print 'Finished generating dataset @', datafile
     # write pared vectors to dataset2.csv
     print 'Writing feature vector data @', pared_datafile
-    generate_csv(pared_datafile, selector.pared_features, selector.pared_feature_vectors)
+    __generate_csv(pared_datafile, selector.pared_features, selector.pared_feature_vectors)
     print 'Finished generating dataset @', pared_datafile
     return selector.feature_vectors, selector.pared_feature_vectors
