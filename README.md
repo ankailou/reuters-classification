@@ -18,7 +18,17 @@ This python module contains the following files and directories:
 * preprocessing/
     * \_\_init\_\_.py
     * preprocessing.py - module for preprocessing the Reuters article database
-    * featurevector.py - sub-module that generates the two feature vector datasets
+    * document/
+        * \_\_init\_\_.py
+        * document.py - sub-module for text extraction & tokenization of document objects
+    * lexicon/
+        * \_\_init\_\_.py
+        * lexicon.py - sub-module for generating the title/body lexicon for document set 
+    * feature/
+        * \_\_init\_\_.py
+        * feature.py - sub-module for generating feature vector datasets
+        * weighting.py - sub-module for computing tf-idf scores
+        * featureselect.py - sub-module for feature selection/reduction
 * classification/
     * \_\_init\_\_.py
     * classification.py - module for classification of the feature vector datasets

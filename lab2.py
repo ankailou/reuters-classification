@@ -5,6 +5,10 @@
     @author = Ankai Lou
 """
 
+###############################################################################
+############## modules & libraries required for the KDD process ###############
+###############################################################################
+
 import os
 import sys
 import time
@@ -28,10 +32,17 @@ def main(argv):
         :param argv: commend line arguments
     """
     start_time = time.time()
+    # Preprocessing =
+    # 1. Text Extraction
+    # 2. Feature Selection
+    # 3. Feature Vector Generation
     print('Step 1: Preprocessing')
     fv, pfv = preprocessing.begin()
+    # Classification = 2x2 Experiment Set
+    # K-Nearest-Neighbors & Decision-Tree
     print('\nStep 2: Classification')
     classification.begin(fv, pfv)
+    # Report Total Running Time
     end_time = time.time() - start_time
     print '\nProcess finished in', end_time, 'seconds!'
 

@@ -5,6 +5,10 @@
     @author = Ankai Lou
 """
 
+###############################################################################
+############ modules & libraries required for classifying articles ############
+###############################################################################
+
 import os
 import sys
 import time
@@ -41,7 +45,7 @@ def filter_empty(feature_vectors):
     empty = dict([])
     nonempty = dict([])
     for document, doc_dict in feature_vectors.iteritems():
-        if len(feature_vectors[document]['topics']) == 0:
+        if len(feature_vectors[document].topics) == 0:
             empty[document] = feature_vectors[document]
         else:
             nonempty[document] = feature_vectors[document]
@@ -82,8 +86,8 @@ def generate_decision_tree(training):
     fv_space = []
     label_space = []
     for fv in training:
-        fv_space.append(fv['feature_vector'])
-        label_space.append(fv['topics'])
+        fv_space.append(fv.vector)
+        label_space.append(fv.topics)
     clf = tree.DecisionTreeClassifier()
     clf = clf.fit(fv_space, label_space)
     return clf, label_space
@@ -130,14 +134,14 @@ def decision_tree(partitions):
         online_start = time.time()
         accuracy = 0.0
         for fv in test:
-            probabilities = dt.predict_proba([fv['feature_vector']])
+            probabilities = dt.predict_proba([fv.vector])
             # classify
             labels = dt_classify(label_space, probabilities[0])
             # check accuracy
-            if len(set(labels[0]) & set(fv['topics'])) > 0:
+            if len(set(labels[0]) & set(fv.topics)) > 0:
                 accuracy += 1.0
         average_accuracy += accuracy / len(test)
-        print 'Total accuracy of trial', i, '-', accuracy
+        print 'Total accuracy of trial', i, '-', accuracy / len(test)
         online_total = time.time() - online_start
         average_online += online_total
         print 'Online cost for trial', i, '-', online_total, 'seconds'
@@ -178,8 +182,8 @@ def get_knn(training, test):
     """
     distances = []
     for point in training:
-        dist = euclidean_distance(test['feature_vector'], point['feature_vector'])
-        distances.append((point['topics'], dist))
+        dist = euclidean_distance(test.vector, point.vector)
+        distances.append((point.topics, dist))
     distances.sort(key=operator.itemgetter(1))
     class_labels = []
     for x in range(num_neighbors):
@@ -213,7 +217,7 @@ def k_nearest_neighbor(partitions):
         accuracy = 0.0
         for fv in test:
             labels = get_knn(training, fv)
-            if len(set(labels) & set(fv['topics'])) > 0:
+            if len(set(labels) & set(fv.topics)) > 0:
                 accuracy += 1.0
         average_accuracy += accuracy / len(test)
         print 'Total accuracy of trial', i, '-', accuracy / len(test)
