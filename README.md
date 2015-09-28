@@ -9,7 +9,7 @@ Lab 2 - Classifying Data
 5. [Change Log](#change log)
 
 ## Overview
-The purpose of this module is to implement two classifiers (knn, decision tree) on the feature vectors generated in lab 1. This module is built on the preprocessing module that sanitized a set of SGML documents representing a Reuters article database into a dataset of feature vectors and class labels. The results of the classifiers will be employed in future assignments for automated categorization, similarity search, and building document graphs.
+The purpose of this module is to implement three classifiers (knn, decision tree, multinomial naive bayes) on the feature vectors generated in lab 1. This module is built on the preprocessing module that sanitized a set of SGML documents representing a Reuters article database into a dataset of feature vectors and class labels. The results of the classifiers will be employed in future assignments for automated categorization, similarity search, and building document graphs.
 
 ## Description
 This python module contains the following files and directories:
@@ -39,6 +39,7 @@ This python module contains the following files and directories:
         * \_\_init\_\_.py
         * knearestneighbor.py - submodule for knn classification
         * decisiontree.py - submodule for decision tree classification 
+        * bayesian.py - submodule for multinomial naive bayes classification
 * data/
     * reut2-xxx.sgm - formatted articles (replace xxx from {000,...,021})
 
@@ -66,6 +67,8 @@ The `classification.py` file will produce the following 2x2 experiement results:
 * KNN for feature vector 2
 * Decision Tree for feature vector 1
 * Decision Tree for feature vector 2
+* Naive Bayes for feature vector 1
+* Naive Bayes for feature vector 2
 
 For more information on how these classifiers were implemented and the offline/online costs, use the command:
 
@@ -179,6 +182,12 @@ Once `classification.py` finishes execution, the results of the 2x2 experiments 
 * Daniel Jaung (jaung.2@osu.edu)
 
 ## Change Log
+
+2015-09-27 - version 2.0.3
+
+* added functionality for naive bayes classification
+* minor updates to documentation
+* TODO: update results/conclusions for MNB in Report2.md
 
 2015-09-24 - version 2.0.2
 
