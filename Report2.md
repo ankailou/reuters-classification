@@ -5,8 +5,10 @@ Report 2 - Classification
 ## Group Members & Contributions
 
 * Ankai Lou
+    * Provided an API for expanding the code 
+    * Refactored the code to allow for simple addition of feature vectors & classifiers
     * Cleaned up and reorganized code from preprocessing lab to be more maintainable
-    * Implemented feature vector generation and feature paring to create two different feature vectors
+    * Implemented feature vector generation and feature paring to create two different feature vectors - one standard, one pared-down
     * Implemented functionality for knn-classification from scratch
     * Implemented functionality for decision-tree classification using scikit-learn
     * Documented all code and README.md

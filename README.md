@@ -6,7 +6,7 @@ Lab 2 - Classifying Data
 2. [Module Description](#description)
 3. [Usage](#usage)
 4. [Development](#development)
-5. [Change Log](#change log)
+5. [Change Log](#change-log)
 
 ## Overview
 The purpose of this module is to implement three classifiers (knn, decision tree, multinomial naive bayes) on the feature vectors generated in lab 1. This module is built on the preprocessing module that sanitized a set of SGML documents representing a Reuters article database into a dataset of feature vectors and class labels. The results of the classifiers will be employed in future assignments for automated categorization, similarity search, and building document graphs.
