@@ -10,6 +10,7 @@
 ###############################################################################
 
 from sklearn.naive_bayes import MultinomialNB
+import warnings
 
 ###############################################################################
 ############## class definition for multinomail nb classifier #################
@@ -53,6 +54,7 @@ class Bayesian:
             generate model necessary for the classifier
             :param training: set of feature vectors used to construct model
         """
+        warnings.filterwarnings('ignore')
         fv_space = []
         self.label_space = []
         for fv in training:
@@ -68,6 +70,7 @@ class Bayesian:
             :param test: set of feature vectors used to test model
             :returns: accuracy score of the classifier on @test
         """
+        warnings.filterwarnings('ignore')
         accuracy = 0.0
         for fv in test:
             labels = self.__run_mnb(fv)

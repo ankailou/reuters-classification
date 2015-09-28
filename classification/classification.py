@@ -62,20 +62,20 @@ def begin(feature_vectors, pared_feature_vectors):
     cross_validator = CrossValidator(fv,num_partitions)
     pared_cross_validator = CrossValidator(pfv,num_partitions)
     # knn on @feature_vectors
-    print('Experiment: k-nearest-neighbor on standard feature vector...')
+    print('\nExperiment: k-nearest-neighbor on standard feature vector...')
     cross_validator.classify(KNN(num_neighbors))
     # knn on @pared_feature_vectors
-    print('Experiment: k-nearest-neighbor on pared down feature vector...')
+    print('\nExperiment: k-nearest-neighbor on pared down feature vector...')
     pared_cross_validator.classify(KNN(num_neighbors))
     # decision-tree on @feature_vectors
-    print('Experiment: decision tree on standard feature vector...')
+    print('\nExperiment: decision tree on standard feature vector...')
     cross_validator.classify(DecisionTree(epsilon))
     # decision-tree on @pared_feature_vectors
-    print('Experiment: decision tree on pared down feature vector...')
+    print('\nExperiment: decision tree on pared down feature vector...')
     pared_cross_validator.classify(DecisionTree(epsilon))
     # bayesian on @feature vectors
-    print('Experiment: bayesian on standard feature vector...')
+    print('\nExperiment: bayesian on standard feature vector...')
     cross_validator.classify(Bayesian(epsilon))
     # bayesian on @pared_feature_vectors
-    print('Experiment: bayesian on pared down feature vector...')
+    print('\nExperiment: bayesian on pared down feature vector...')
     pared_cross_validator.classify(Bayesian(epsilon))

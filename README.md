@@ -61,7 +61,7 @@ Potential additional to future iterations of feature vector generation:
 * binning: equal-width & equal-depth (grouping by topics/places, part-of-speech, etc)
 * entropy-based discretization (partitioning based on entropy calculations)
 
-The `classification.py` file will produce the following 2x2 experiement results:
+The `classification.py` file will produce the following 3x2 experiment results:
 
 * KNN for feature vector 1
 * KNN for feature vector 2

@@ -99,14 +99,16 @@ Note that the results from the classification step will usually differ between i
 * For the KNN on the pared feature vector, across 5 iterations of cross-validation, the offline costs were 9.05990600586e-06, 1.00135803223e-05, 2.19345092773e-05, 1.00135803223e-05, and 1.00135803223e-05 seconds. 
 * For the decision tree on the standard feature vector, across 5 iterations of cross-validation, the offline costs were 0.113656997681, 0.122953176498, 0.110245943069, 0.101885080338, and 0.118744134903 seconds. 
 * For the decision tree on the pared feature vector, across 5 iterations of cross-validation, the offline costs were 0.0163049697876, 0.0159809589386, 0.0168070793152, 0.0148220062256, and 0.0160479545593 seconds.
+* For the multinomial naive bayes on the standard feature vector, across 5 iterations of cross-validation, the offline costs were 0.106421947479, 0.0985600948334, 0.10511803627, 0.0990388393402, and 0.0975611209869 seconds.
+* For the multinomial naive bayes on the pared feature vector, across 5 iterations of cross-validation, the offline costs were 0.0163910388947, 0.0164449214935, 0.017884016037, 0.0181641578674, and 0.0168759822845 seconds.
 
-The averages of the 2x2 experiment set is represented with the table:
+The averages of the 3x2 experiment set is represented with the table:
 
      | Feature Vector 1     | Feature Vector 2
 ---- | -------------------- | -----------------
 KNN  | 2.09808349609e-05 s  | 1.220703125e-05 s
 Tree | 0.113497066498 s     | 0.0159925937653 s
-MNB  |                      |
+MNB  | 0.101340007782 s     | 0.0171520233154 s
 
 From here, we can make the following observations:
 
@@ -120,14 +122,16 @@ From here, we can make the following observations:
 * For the KNN on the pared feature vector, across 5 iterations of cross-validation, the online costs were 3.48056292534, 3.6446480751, 3.68867111206, 3.61712503433, and 3.38688397408 seconds.
 * For the decision tree on the standard feature vector, across 5 iterations of cross-validation, the online costs were 0.0267839431763, 0.020122051239, 0.0214660167694, 0.0195162296295, and 0.0245912075043 seconds.
 * For the decision tree on the pared feature vector, across 5 iterations of cross-validation, the online costs were 0.00739312171936, 0.00783205032349, 0.00714898109436, 0.00731086730957, and 0.0107901096344 seconds.
+* For the multinomial naive bayes on the standard feature vector, across 5 iterations of cross-validation, the online costs were 0.0472280979156, 0.0454790592194, 0.0478901863098, 0.0472888946533, and 0.0467879772186 seconds.
+* For the multinomial naive bayes on the pared feature vector, across 5 iterations of cross-validation, the online costs were 0.0194499492645, 0.0200910568237, 0.0194730758667, 0.0190689563751, and 0.0192909240723 seconds.
 
-The averages of the 2x2 experiment set is represented with the table:
+The averages of the 3x2 experiment set is represented with the table:
 
      | Feature Vector 1  | Feature Vector 2
 ---- | ----------------- | -----------------
 KNN  | 29.3147583008 s   | 3.56357822418 s
 Tree | 0.0224958896637 s | 0.00809502601624 s
-MNB  |                   |
+MNB  | 0.0469348430634 s | 0.0194747924805 s
 From here, we can make the following observations:
 
 * Paring down the feature vector improves the online cost for KNN by an order of magnitude. This is because there are far fewer computations required to compute Euclidean distance. In general, the KNN classifier for both the standard and pared-down feature vector are both abysmal in terms of online performance - especially when considering scalability (as the online cost scales with respect to both the dataset size and the feature vector size).
@@ -136,23 +140,25 @@ From here, we can make the following observations:
 
 ### Accuracy of Classification
 
-* For the KNN on the standard feature vector, across 5 iterations of cross-validation, the accuracies of the classifier were 58.0, 62.0, 84.0, 87.0, and 85.0 percent across each of the iterations.
-* For the KNN on the pared feature vector, across 5 iterations of cross-validation, the accuracies of the classifier were 66.0, 64.0, 60.0, 56.0, and 61.0 percent across each of the iterations.
-* For the decision tree on the standard feature vector, across 5 iterations of cross-validation, the accuracies of the classifier were 39.0, 11.0, 4.0, 5.0, and 46.0 percent across each of the iterations.
-* For the decision tree on the pared feature vector, across 5 iterations of cross-validation, the accuracies of the classifier were 35.0, 22.0, 3.0, 17.0, and 25.0 percent across each of the iterations.
+* For the KNN on the standard feature vector, across 5 iterations of cross-validation, the accuracies of the classifier were 0.835978835979, 0.804232804233, 0.84126984127, 0.830687830688, and 0.857142857143 across each of the iterations.
+* For the KNN on the pared feature vector, across 5 iterations of cross-validation, the accuracies of the classifier were 0.777777777778, 0.708994708995, 0.746031746032, 0.772486772487, and 0.798941798942 percent across each of the iterations.
+* For the decision tree on the standard feature vector, across 5 iterations of cross-validation, the accuracies of the classifier were 0.137566137566, 0.0634920634921, 0.730158730159, 0.0634920634921, and 0.756613756614 percent each of the iterations.
+* For the decision tree on the pared feature vector, across 5 iterations of cross-validation, the accuracies of the classifier were 0.767195767196, 0.724867724868, 0.47619047619, 0.740740740741, 0.772486772487 across each of the iterations.
+* For the multinomial naive bayes on the standard feature vector, across 5 iterations of cross-validation, the accuracies of the classifier were 0.94708994709, 0.888888888889, 0.952380952381, 0.931216931217, and 0.94708994709 across each of the iterations.
+* For the multinomial naive bayes on the pared feature vector, across 5 iterations of cross-validation, the accuracies of the classifier were 0.936507936508, 0.830687830688, 0.904761904762, 0.904761904762, and 0.915343915344 across each of the iterations.
 
-The averages of the 2x2 experiment set is represented with the table:
+The averages of the 3x2 experiment set is represented with the table:
 
      | Feature Vector 1  | Feature Vector 2
 ---- | ----------------- | -----------------
-KNN  | 0.723076923077    | 0.590384615385
-Tree | 0.201923076923    | 0.196153846154
-MNB  |                   |
+KNN  | 0.833862433862    | 0.760846560847
+Tree | 0.350264550265    | 0.696296296296
+MNB  | 0.933333333333    | 0.898412698413 
 
 From here, we can make the following observations:
 
 * Paring down the feature vector leads to the slight performance drop in the KNN-classifier. This is because loss of dimensionality leads to less granular data - leading to less precise classifications of the testing data.
-* Paring down the feature vector does not lead to a performance change in the decision-tree classifier.
+* Paring down the feature vector seems to lead to a performance improvement in the decision-tree classifier - perhaps this is due to overfitting with regards to the standard feature vector.
 * The KNN-classifier performed far better and far more consistently than the decision-tree classifier. This is likely due to the breadth of the computation that KNN performs as opposed to the decision-tree.
 
 ## Interpretation of Output

@@ -77,7 +77,7 @@ def begin(datapath='data'):
         generate dataset (feature vectors, class labels) for .sgm file set:
     """
     # generate list of document objects for feature selection
-    print('Generating document objects. This may take some time...')
+    print('\nGenerating document objects. This may take some time...')
     documents = __parse_documents(datapath)
     # generate lexicon of unique words for feature reduction
     print('Document generation complete. Building lexicon...')
