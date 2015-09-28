@@ -38,18 +38,13 @@ class FeatureSelector:
             :param weights: table of (document,word) tf-idf scores
             :param documents: list of document objects
         """
-        # feature lists - ADD NEW FEATURE VECTOR LISTS HERE
         self.features = []
-        self.pared_features = []
-        self.feature_vectors = dict([])
-        self.pared_feature_vectors = dict([])
-        # generate features
+        self.feature_vectors = []
+        # generate feature sets
         self.__select_features(weights)
         # generate standard dataset
-        self.__generate_dataset(weights,documents,self.features,self.feature_vectors)
-        # generate pared dataset
-        self.__generate_dataset(weights,documents,self.pared_features,self.pared_feature_vectors)
-        # ADD NEW FEATURE SELECTION GENERATORS HERE
+        for feature_set in self.features:
+            self.__generate_dataset(weights,documents,feature_set)
 
     ###########################################################################
     ###################### method for feature selection #######################
@@ -75,16 +70,17 @@ class FeatureSelector:
         # pare down feature vector to 10%
         new_size = len(features) / 10
         pared_features = dict(sorted(scores.iteritems(), key=operator.itemgetter(1), reverse=True)[:new_size])
+        # ADD NEW FEATURE SELECTION METHODS HERE
         # sort sets into list
-        self.features = sorted(features)
-        self.pared_features = sorted(pared_features)
-        # UPDATE HERE TO ADD NEW FEATURE SELECTION METHODS
+        self.features.append(sorted(features))
+        self.features.append(sorted(pared_features))
+        # APPEND NEW FEATURE SETS HERE
 
     ###########################################################################
     ############## method for feature vector dataset generation ###############
     ###########################################################################
 
-    def __generate_dataset(self,weights,documents,features,dataset):
+    def __generate_dataset(self,weights,documents,features):
         """ function: generate_dataset
             --------------------------
             generate dataset of feature vectors of @features
@@ -92,8 +88,8 @@ class FeatureSelector:
             :param documents: list of document objects
             :param weights: table of (document,word) tf-idf scores
             :oaram features: list of feature words to select
-            :param dataset: object file dictionary to add feature vector
         """
+        dataset = dict([])
         for i, document in enumerate(documents):
             # instantiate new feature vector object
             dataset[i] = FeatureVector()
@@ -103,3 +99,4 @@ class FeatureSelector:
             # grab class labels
             dataset[i].topics = document.topics
             dataset[i].topics = document.places
+        self.feature_vectors.append(dataset)

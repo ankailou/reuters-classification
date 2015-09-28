@@ -22,8 +22,7 @@ from featureselect import FeatureSelector
 ########## global variables for single-point of control over change ###########
 ###############################################################################
 
-datafile = 'datasets/dataset1.csv'
-pared_datafile = 'datasets/dataset2.csv'
+datafile = ['datasets/dataset1.csv', 'datasets/dataset2.csv']
 
 ###############################################################################
 ############### function for printing dataset to .csv document ################
@@ -83,12 +82,9 @@ def generate(documents, lexicon):
     # generate feature list
     print('Selecting features for the feature vectors...')
     selector = FeatureSelector(weights.table,documents)
-    # write vectors to dataset1.csv
-    print 'Writing feature vector data @', datafile
-    __generate_csv(datafile, selector.features, selector.feature_vectors)
-    print 'Finished generating dataset @', datafile
-    # write pared vectors to dataset2.csv
-    print 'Writing feature vector data @', pared_datafile
-    __generate_csv(pared_datafile, selector.pared_features, selector.pared_feature_vectors)
-    print 'Finished generating dataset @', pared_datafile
-    return selector.feature_vectors, selector.pared_feature_vectors
+    # write feature vectors to csv files
+    for i, feature in enumerate(selector.features):
+        print 'Writing feature vector data @', datafile[i]
+        __generate_csv(datafile[i], selector.features[i], selector.feature_vectors[i])
+        print 'Finished generating dataset @', datafile[i]
+    return selector.feature_vectors
