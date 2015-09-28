@@ -23,6 +23,19 @@ num_neighbors = 3
 epsilon = 0.0
 
 ###############################################################################
+############################# list of classifiers #############################
+###############################################################################
+
+classifiers = [KNN(num_neighbors), DecisionTree(epsilon), Bayesian(epsilon)]
+
+###############################################################################
+################# strings representing classifier experiments #################
+###############################################################################
+
+classifier_name = ["k-nearest-neighbor","decision tree","naive bayes"]
+fv_dataset_name = ["standard feature vector","pared feature vector"]
+
+###############################################################################
 ############# function(s) for generating training & testing sets ##############
 ###############################################################################
 
@@ -47,35 +60,18 @@ def __filter_empty(feature_vectors):
 ################# main function for single-point-of-execution #################
 ###############################################################################
 
-def begin(feature_vectors, pared_feature_vectors):
+def begin(feature_vectors):
     """ function: begin
         ---------------
-        use knn, decision tree, and naive bayesian classifiers on two feature vector datasets
+        use N classifiers on M feature vector datasets
 
         :param feature_vectors: standard dataset generated using tf-idf
-        :param pared_feature_vectors: pared down version of @feature_vectors
     """
-    # extract out vectors with empty 'topics' class labels
-    fv, efv = __filter_empty(feature_vectors)
-    pfv, epfv = __filter_empty(pared_feature_vectors)
-    # implement cross validation with n = 5 or n = 10
-    cross_validator = CrossValidator(fv,num_partitions)
-    pared_cross_validator = CrossValidator(pfv,num_partitions)
-    # knn on @feature_vectors
-    print('\nExperiment: k-nearest-neighbor on standard feature vector...')
-    cross_validator.classify(KNN(num_neighbors))
-    # knn on @pared_feature_vectors
-    print('\nExperiment: k-nearest-neighbor on pared down feature vector...')
-    pared_cross_validator.classify(KNN(num_neighbors))
-    # decision-tree on @feature_vectors
-    print('\nExperiment: decision tree on standard feature vector...')
-    cross_validator.classify(DecisionTree(epsilon))
-    # decision-tree on @pared_feature_vectors
-    print('\nExperiment: decision tree on pared down feature vector...')
-    pared_cross_validator.classify(DecisionTree(epsilon))
-    # bayesian on @feature vectors
-    print('\nExperiment: bayesian on standard feature vector...')
-    cross_validator.classify(Bayesian(epsilon))
-    # bayesian on @pared_feature_vectors
-    print('\nExperiment: bayesian on pared down feature vector...')
-    pared_cross_validator.classify(Bayesian(epsilon))
+    # iterate across feature vector sets
+    for i, dataset in enumerate(feature_vectors):
+        fv, efv = __filter_empty(dataset)
+        cross_validator = CrossValidator(fv,num_partitions)
+        # iterate across classifiers
+        for j, classifier in enumerate(classifiers):
+            print "\nExperiment:", classifier_name[j], "on", fv_dataset_name[i]
+            cross_validator.classify(classifier)

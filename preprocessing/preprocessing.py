@@ -84,6 +84,6 @@ def begin(datapath='data'):
     lexicon = Lexicon(documents)
     # preprocessing phase finished. begin feature selection phase
     print('Lexicon generation complete. Generating feature vectors...')
-    feature_vectors, pared_feature_vectors = feature.generate(documents, lexicon)
+    feature_vectors = feature.generate(documents, lexicon)
     print('Feature vector generation complete. Preprocessing phase complete!')
-    return feature_vectors, pared_feature_vectors
+    return feature_vectors

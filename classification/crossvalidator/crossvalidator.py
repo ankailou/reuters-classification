@@ -73,7 +73,7 @@ class CrossValidator:
             training = self.__build_model(classifier,i)
             offline_total = time.time() - offline_start
             average_offline += offline_total
-            print 'Offline cost for trial', i, '-', offline_total, 'seconds'
+            print 'Offline cost for trial', i, '--', offline_total, 'seconds'
             # test classifier - get online cost
             online_start = time.time()
             accuracy = classifier.test_model(test)
@@ -81,7 +81,7 @@ class CrossValidator:
             print 'Total accuracy of trial', i, '-', accuracy / len(test)
             online_total = time.time() - online_start
             average_online += online_total
-            print 'Online cost for trial', i, '-', online_total, 'seconds'
+            print 'Online cost for trial', i, '---', online_total, 'seconds'
         # compute final statistics
         print 'Average offline efficiency cost:', average_offline / self.num_partitions, 'seconds'
         print 'Average online efficiency cost:', average_online / self.num_partitions, 'seconds'

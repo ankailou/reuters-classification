@@ -38,6 +38,7 @@ class FeatureSelector:
             :param weights: table of (document,word) tf-idf scores
             :param documents: list of document objects
         """
+        # feature lists - ADD NEW FEATURE VECTOR LISTS HERE
         self.features = []
         self.pared_features = []
         self.feature_vectors = dict([])
@@ -48,6 +49,7 @@ class FeatureSelector:
         self.__generate_dataset(weights,documents,self.features,self.feature_vectors)
         # generate pared dataset
         self.__generate_dataset(weights,documents,self.pared_features,self.pared_feature_vectors)
+        # ADD NEW FEATURE SELECTION GENERATORS HERE
 
     ###########################################################################
     ###################### method for feature selection #######################
@@ -76,6 +78,7 @@ class FeatureSelector:
         # sort sets into list
         self.features = sorted(features)
         self.pared_features = sorted(pared_features)
+        # UPDATE HERE TO ADD NEW FEATURE SELECTION METHODS
 
     ###########################################################################
     ############## method for feature vector dataset generation ###############

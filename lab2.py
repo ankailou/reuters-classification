@@ -36,11 +36,12 @@ def main(argv):
     # 2. Feature Selection
     # 3. Feature Vector Generation
     print('Step 1: Preprocessing')
-    fv, pfv = preprocessing.begin()
-    # Classification = 2x2 Experiment Set
-    # K-Nearest-Neighbors & Decision-Tree
+    fv = preprocessing.begin()
+    # Classification = 3x2 Experiment Set
+    # K-Nearest-Neighbors, Decision-Tree, Naive Bayes
+    # Standard & Pared-Down Feature Vector
     print('\nStep 2: Classification')
-    classification.begin(fv, pfv)
+    classification.begin(fv)
     # Report Total Running Time
     end_time = time.time() - start_time
     print '\nProcess finished in', end_time, 'seconds!'
