@@ -11,6 +11,10 @@ Report 2 - Classification
     * Implemented functionality for decision-tree classification using scikit-learn
     * Documented all code and README.md
 
+* Daniel Jaung
+    * Implemented functionality for multinomial naive bayes classification using scikit-learn
+    * Updated documentation
+
 ## Problem Statement
 
 * Predict the TOPICS class labels of test set of feature vectors representing Reuters articles
@@ -40,11 +44,17 @@ Report 2 - Classification
     * Decision tree model was generated using sklearn.tree
     * Tree used to predict probabilities of different classifications
     * Union of labels with probabilities greater than epsilon = 0.000001 are used
-* The 2x2 Experiements were performed:
+* Implement Multinomial Naive Bayes classification:
+    * Cross validation was used with k = 5
+    * Decision tree model was generated using sklearn.naive_bayes
+    * Event model used to predict probabilities of different classifications
+* The 3x2 Experiements were performed:
     * KNN using the standard feature vector
     * KNN using the pared-down feature vector
     * Decision-Tree using the standard feature vector
     * Decision-Tree using the pared-down feature vector      
+    * Naive Bayes using the standard feature vector
+    * Naive Bayes using the pared-down standard feature vector
 
 ## Explanation & Rationale of Classification
 
@@ -77,10 +87,11 @@ Report 2 - Classification
     * scikit-learn
         * sklearn.feature_extraction.text.TfidfVectorizer
         * sklearn.tree.DecisionTreeClassifier 
+        * sklearn.naive_bayes.MultinomialNB
 
 ## Experiments & Results
 
-Note that the results from the classification step will usually differ between iterations because the cross validation partitioning is randomized. Thus, accuracies can range from abysmal to passable. The following results were computed for each of the 2x2 experiments on 1 file in the Reuters dataset:
+Note that the results from the classification step will usually differ between iterations because the cross validation partitioning is randomized. Thus, accuracies can range from abysmal to passable. The following results were computed for each of the 3x2 experiments on 1 file in the Reuters dataset:
 
 ### Offline Cost (Scalability)
 
@@ -95,6 +106,7 @@ The averages of the 2x2 experiment set is represented with the table:
 ---- | -------------------- | -----------------
 KNN  | 2.09808349609e-05 s  | 1.220703125e-05 s
 Tree | 0.113497066498 s     | 0.0159925937653 s
+MNB  |                      |
 
 From here, we can make the following observations:
 
@@ -115,7 +127,7 @@ The averages of the 2x2 experiment set is represented with the table:
 ---- | ----------------- | -----------------
 KNN  | 29.3147583008 s   | 3.56357822418 s
 Tree | 0.0224958896637 s | 0.00809502601624 s
-
+MNB  |                   |
 From here, we can make the following observations:
 
 * Paring down the feature vector improves the online cost for KNN by an order of magnitude. This is because there are far fewer computations required to compute Euclidean distance. In general, the KNN classifier for both the standard and pared-down feature vector are both abysmal in terms of online performance - especially when considering scalability (as the online cost scales with respect to both the dataset size and the feature vector size).
@@ -135,6 +147,7 @@ The averages of the 2x2 experiment set is represented with the table:
 ---- | ----------------- | -----------------
 KNN  | 0.723076923077    | 0.590384615385
 Tree | 0.201923076923    | 0.196153846154
+MNB  |                   |
 
 From here, we can make the following observations:
 

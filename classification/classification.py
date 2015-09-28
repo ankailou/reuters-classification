@@ -2,7 +2,7 @@
 
 """ classification.py
     -----------------
-    @author = Ankai Lou
+    @author = Ankai Lou, Daniel Jaung
 """
 
 ###############################################################################
@@ -12,6 +12,7 @@
 from crossvalidator.crossvalidator import CrossValidator
 from classifier.knearestneighbor import KNN
 from classifier.decisiontree import DecisionTree
+from classifier.bayesian import Bayesian
 
 ###############################################################################
 ############################### global variables ##############################
@@ -49,7 +50,7 @@ def __filter_empty(feature_vectors):
 def begin(feature_vectors, pared_feature_vectors):
     """ function: begin
         ---------------
-        use knn & decision tree classifiers on two feature vector datasets
+        use knn, decision tree, and naive bayesian classifiers on two feature vector datasets
 
         :param feature_vectors: standard dataset generated using tf-idf
         :param pared_feature_vectors: pared down version of @feature_vectors
@@ -72,3 +73,9 @@ def begin(feature_vectors, pared_feature_vectors):
     # decision-tree on @pared_feature_vectors
     print('Experiment: decision tree on pared down feature vector...')
     pared_cross_validator.classify(DecisionTree(epsilon))
+    # bayesian on @feature vectors
+    print('Experiment: bayesian on standard feature vector...')
+    cross_validator.classify(Bayesian(epsilon))
+    # bayesian on @pared_feature_vectors
+    print('Experiment: bayesian on pared down feature vector...')
+    pared_cross_validator.classify(Bayesian(epsilon))
