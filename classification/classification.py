@@ -62,8 +62,8 @@ def begin(feature_vectors, pared_feature_vectors):
     cross_validator = CrossValidator(fv,num_partitions)
     pared_cross_validator = CrossValidator(pfv,num_partitions)
     # knn on @feature_vectors
-#    print('Experiment: k-nearest-neighbor on standard feature vector...')
-#    cross_validator.classify(KNN(num_neighbors))
+    print('Experiment: k-nearest-neighbor on standard feature vector...')
+    cross_validator.classify(KNN(num_neighbors))
     # knn on @pared_feature_vectors
     print('Experiment: k-nearest-neighbor on pared down feature vector...')
     pared_cross_validator.classify(KNN(num_neighbors))
