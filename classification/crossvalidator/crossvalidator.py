@@ -80,8 +80,8 @@ class CrossValidator:
             average_accuracy += accuracy / len(test)
             print 'Total accuracy of trial', i, '-', accuracy / len(test)
             online_total = time.time() - online_start
-            average_online += online_total
-            print 'Online cost for trial', i, '---', online_total, 'seconds'
+            average_online += online_total / len(test)
+            print 'Online cost for trial', i, '---', online_total / len(test), 'seconds'
         # compute final statistics
         print 'Average offline efficiency cost:', average_offline / self.num_partitions, 'seconds'
         print 'Average online efficiency cost:', average_online / self.num_partitions, 'seconds'

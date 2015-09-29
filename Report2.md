@@ -122,20 +122,20 @@ From here, we can make the following observations:
 
 ### Online Cost (Classification Time)
 
-* For the KNN on the standard feature vector, across 5 iterations of cross-validation, the online costs were 27.4860038757, 29.0641348362, 30.7863907814, 29.2113089561, and 30.0259530544 seconds.
-* For the KNN on the pared feature vector, across 5 iterations of cross-validation, the online costs were 3.48056292534, 3.6446480751, 3.68867111206, 3.61712503433, and 3.38688397408 seconds.
-* For the decision tree on the standard feature vector, across 5 iterations of cross-validation, the online costs were 0.0267839431763, 0.020122051239, 0.0214660167694, 0.0195162296295, and 0.0245912075043 seconds.
-* For the decision tree on the pared feature vector, across 5 iterations of cross-validation, the online costs were 0.00739312171936, 0.00783205032349, 0.00714898109436, 0.00731086730957, and 0.0107901096344 seconds.
-* For the multinomial naive bayes on the standard feature vector, across 5 iterations of cross-validation, the online costs were 0.0472280979156, 0.0454790592194, 0.0478901863098, 0.0472888946533, and 0.0467879772186 seconds.
-* For the multinomial naive bayes on the pared feature vector, across 5 iterations of cross-validation, the online costs were 0.0194499492645, 0.0200910568237, 0.0194730758667, 0.0190689563751, and 0.0192909240723 seconds.
+* For the KNN on the standard feature vector, across 5 iterations of cross-validation, the online costs were 0.499754862811, 0.510737661331, 0.517633227444, 0.502097852646, and 0.492976138201 seconds to classify one point.
+* For the KNN on the pared feature vector, across 5 iterations of cross-validation, the online costs were 0.0599249733819, 0.0621784767777, 0.0618928096913, 0.061846820135, and 0.0612141530981 seconds to classify one point.
+* For the decision tree on the standard feature vector, across 5 iterations of cross-validation, the online costs were 0.000216814576003, 0.000195988902339, 0.00020661303606, 0.000194226623212, and 0.000230666821596 seconds to classify one point.
+* For the decision tree on the pared feature vector, across 5 iterations of cross-validation, the online costs were 9.61318848625e-05, 8.81631538351e-05, 8.61334422278e-05, 8.5746169721e-05, and 8.42538460222e-05 seconds to classify one point.
+* For the multinomial naive bayes on the standard feature vector, across 5 iterations of cross-validation, the online costs were 0.000268861730263, 0.000266459883836, 0.00026320528101, 0.000256180132508, and 0.000272026768437 seconds to classify one point.
+* For the multinomial naive bayes on the pared feature vector, across 5 iterations of cross-validation, the online costs were 0.000112104668188, 0.000112496986591, 0.000104349126261, 0.000106311979748, and 0.000105937321981 seconds to classify one point.
 
 The averages of the 3x2 experiment set is represented with the table:
 
-     | Feature Vector 1  | Feature Vector 2
----- | ----------------- | -----------------
-KNN  | 29.3147583008 s   | 3.56357822418 s
-Tree | 0.0224958896637 s | 0.00809502601624 s
-MNB  | 0.0469348430634 s | 0.0194747924805 s
+     | Feature Vector 1    | Feature Vector 2
+---- | ------------------- | -----------------
+KNN  | 0.492474928104 s    | 0.0609870966149 s
+Tree | 0.000204578026262 s | 8.70020931991e-05 s
+MNB  | 0.000256526280963 s | 0.000106467645635 s
 From here, we can make the following observations:
 
 * Paring down the feature vector improves the online cost for KNN by an order of magnitude. This is because there are far fewer computations required to compute Euclidean distance. In general, the KNN classifier for both the standard and pared-down feature vector are both abysmal in terms of online performance - especially when considering scalability (as the online cost scales with respect to both the dataset size and the feature vector size).
