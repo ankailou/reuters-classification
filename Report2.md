@@ -21,8 +21,8 @@ Report 2 - Classification
 
 * Predict the TOPICS class labels of test set of feature vectors representing Reuters articles
 * Generate two sets of feature vector datasets (one being a pared down version of the other)
-* Implement two different classifiers for the feature vectors datasets
-* Test the scalability, cost, and accuracy of the 2x2 set of experiments
+* Implement three different classifiers for the feature vectors datasets
+* Test the scalability, cost, and accuracy of the 3x2 set of experiments
 
 ## Proposed Solution
 
@@ -65,9 +65,10 @@ Report 2 - Classification
 
 * Cross-validation was implement with `n = 5` for both classifiers because it is far more robust and accurate in determining a classifier's cost and accuracy than a simple 2-way split. 
 * The KNN classifier was chosen because it is the easier classifier to implement. KNN comes with a very small offline cost and a very large online cost - with accuracy being determined by how many neighbors are computed (which also impacts online cost). `k = 3` neighbors were computed in order to minimize the online cost without the accuracy hit the `k = 1` possesses.
-* The Decision-Tree classifier was chosen because it has a far more sophisticated model than the KNN-classifier. The Decision-Tree classifiers comes with a much larger offline cost (to generate the model) and a small online cost (because running the model is faster than computing an NxN array of distances). The Decision-Tree classifier and KNN has very significant differences.
+* The Decision-Tree classifier was chosen because it has a far more sophisticated model than the KNN-classifier. The Decision-Tree classifiers comes with a much larger offline cost (to generate the model) and a small online cost (because running the model is faster than computing an NxN array of distances). 
+* The Multinomial Naive Bayes classifier was chosen as its model computation lends itself to document classification. It builds an event model using word frequency to calculate the probability of a feature. However, MNB can also work well using tf-idf rather than word frequency, which is the case here. MNB operates using Bayes Theorem with the 'naive' assupmtion that each feature is conditionally independent.
 
-* The selection of feature vectors and classifiers were all chosen in order to maximize the different between the four experiments executed - more granularity corresponds to better quality information.
+* The selection of feature vectors and classifiers were all chosen in order to maximize the different between the six experiments executed - more granularity corresponds to better quality information.
 
 ## Resources
 
@@ -116,7 +117,8 @@ From here, we can make the following observations:
 
 * Paring down the feature vector does not lead to a significant change in offline cost for the KNN-classifier; this is because model construction for KNN is simply adding the training space into a list - which is not dependent on the number of features.
 * Paring down the feature vector leads to a reduction in offline cost for the decision-tree classifier by an order of magnitude consistent with how much the features were reduced; this is because the relative height of the decision tree is linearly dependent on the number of features in the feature vector. Thus, there is a gain in scalability when a pared down feature vector is used for the decision tree.
-* In general, the offline cost for the decision tree was greater than the offline cost for the KNN-classifier by 3 to 4 orders of magnitude. This means that model construction is far simpler and faster for the KNN-classifier.   
+* Paring down the feature vector with the MNB-classifier leads to a comparable reduction in offline cost as with the decision tree. The time it takes to build the model scales with the number of features. 
+* In general, the offline costs for the decision tree and the MNB-classifier were greater than the offline cost for the KNN-classifier by 3 to 4 orders of magnitude. This means that model construction is far simpler and faster for the KNN-classifier.   
 
 ### Online Cost (Classification Time)
 
@@ -138,6 +140,7 @@ From here, we can make the following observations:
 
 * Paring down the feature vector improves the online cost for KNN by an order of magnitude. This is because there are far fewer computations required to compute Euclidean distance. In general, the KNN classifier for both the standard and pared-down feature vector are both abysmal in terms of online performance - especially when considering scalability (as the online cost scales with respect to both the dataset size and the feature vector size).
 * Paring down the feature vector improves the online cost for the decision tree by an order of magnitude. This is because the height of the tree is dependent on the feature vector size; thus, a single traversal of the tree also scales linearly with respect to the features.
+* Paring down the feature vector improves the online cost for the MNB classifier by about half. While slower, it performed at similar speeds as the the decision tree classifier, as the MNB classifier also scales linearly with the number of features.
 * The online cost of the decision-tree classifier is better than the online cost of the KNN-classifier by 3 to 4 orders of magnitude. This is because the decision tree model is far more sophisticated than the KNN model and requires far few computations/comparisons to classify a feature vector. When scaled up to a larger dataset - online cost becomes the primary metric for determining speed (since offline cost is small for both classifiers).
 
 ### Accuracy of Classification
@@ -161,16 +164,17 @@ From here, we can make the following observations:
 
 * Paring down the feature vector leads to the slight performance drop in the KNN-classifier. This is because loss of dimensionality leads to less granular data - leading to less precise classifications of the testing data.
 * Paring down the feature vector seems to lead to a performance improvement in the decision-tree classifier - perhaps this is due to overfitting with regards to the standard feature vector.
-* The KNN-classifier performed far better and far more consistently than the decision-tree classifier. This is likely due to the breadth of the computation that KNN performs as opposed to the decision-tree.
+* Paring down the feature vector leads to a slight drop in accuracy for the MNB-classifier correlating with the reduction with sample size. However, the accuracy remains the highest of the classifiers.
+* The KNN-classifier and MNB-classifier performed far better and far more consistently than the decision-tree classifier. This is likely due to the breadth of the computation that KNN and MNB perform compared to the decision-tree.
 
 ## Interpretation of Output
 
-* The offline costs for both the KNN-classifier and the decision-tree classifier were both very small - even when scaled up to a larger dataset. This means that offline cost is not a good metric for measuring classifier quality in this case.
-* Paring down the feature vector affected the offline cost for the decision by an order of magnitude - which means feature reduction is good for scalability for the decision-tree classifier. The KNN classifier was not affected.
+* The offline costs for the KNN-classifier, the decision-tree classifier, and the MNB-classifier were very small - even when scaled up to a larger dataset. This means that offline cost is not a good metric for measuring classifier quality in this case.
+* Paring down the feature vector affected the offline cost for both the decision tree and MNB-classifier by an order of magnitude - which means feature reduction is good for scalability for both classifiers. The KNN classifier was not affected.
 
-* The online cost for the decision tree was far better than the online cost for the KNN-classifier. Therefore, if speed is a concern, then the decision-tree classifier should definitely be used over the KNN classifier.
+* The online cost for the decision tree was far better than the online cost for the KNN-classifier and slightly better than for the MNB-classifier. Therefore, if speed is the only concern, then the decision-tree classifier should be used over the other two.
 * Paring down the feature vector led to an improvement in online cost in both classifiers by an order of magnitude. Therefore, if speed is a concern, then it is beneficial to pare down the vector for both classifiers.
 
-* Paring down the feature vector led to a slight decrease in accuracy in the KNN-classifier and no change in the decision-tree classifier. Thus, if accuracy is a concern, it is preferable to not pare down the feature vector for KNN.
-* The KNN-classifier was far more accurate than the decision-tree classifer. This is expected as the online costs were far larger for the KNN-classifier. If accuracy is a concern, then the KNN classifier should be chosen over the decision-tree.
-* The decision tree is a far less stable classifier than the KNN classifier in terms of accuracy. Perhaps this is due to underfitting for certain iterations of cross validation. Either way, the accuracy of the decision tree is clearly inferior to the KNN classifier even when scaled up to a much larger dataset. If accuracy is the primary metric for the quality of the classifier, a decision tree should not be chosen - or a better sample size should be used to prevent underfitting and overfitting.
+* Paring down the feature vector led to a slight decrease in accuracy in the KNN-classifier and the MNB-classifier and an increase in accuracy in the decision-tree classifier. Thus, if accuracy is a concern, it is preferable to not pare down the feature vector for KNN.
+* The MNB-classifier was notably more accurate than he KNN-classifier and significantly more accurate than the decision-tree classifer. The MNB was the most accurate as its relatively simple computations allow it to avoid overfitting at smaller sample sizes. The accuracy of KNN is expected as the online costs were far larger for the KNN-classifier. If accuracy is a concern, then the MNB-classifier should be chosen over the other two classifiers.
+* The decision tree is a far less stable classifier than the other two classifiers in terms of accuracy. Perhaps this is due to underfitting for certain iterations of cross validation. Either way, the accuracy of the decision tree is clearly inferior to the other classifiers even when scaled up to a much larger dataset. If accuracy is the primary metric for the quality of the classifier, a decision tree should not be chosen - or a better sample size should be used to prevent underfitting and overfitting. The MNB-classifier is found to be the most accurate and stable at this sample size.
