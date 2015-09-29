@@ -22,6 +22,7 @@ class KNN:
             ---------------------
             instantiate a knn classifier
         """
+        self.name = "k-nearest-neighbors"
         self.training = None
         self.num_neighbors = num_neighbors
 

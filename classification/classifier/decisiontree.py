@@ -21,6 +21,7 @@ class DecisionTree:
             ---------------------
             instantiate a decision tree classifier
         """
+        self.name = "decision tree"
         self.dt = None
         self.label_space = []
         self.epsilon = epsilon

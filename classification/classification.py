@@ -10,9 +10,7 @@
 ###############################################################################
 
 from crossvalidator.crossvalidator import CrossValidator
-from classifier.knearestneighbor import KNN
-from classifier.decisiontree import DecisionTree
-from classifier.bayesian import Bayesian
+from classifier import *
 
 ###############################################################################
 ############################### global variables ##############################
@@ -26,13 +24,14 @@ epsilon = 0.0
 ############################# list of classifiers #############################
 ###############################################################################
 
-classifiers = [KNN(num_neighbors), DecisionTree(epsilon), Bayesian(epsilon)]
+classifiers = [knearestneighbor.KNN(num_neighbors),
+               decisiontree.DecisionTree(epsilon),
+               bayesian.Bayesian(epsilon)]
 
 ###############################################################################
 ################# strings representing classifier experiments #################
 ###############################################################################
 
-classifier_name = ["k-nearest-neighbor","decision tree","naive bayes"]
 fv_dataset_name = ["standard feature vector","pared feature vector"]
 
 ###############################################################################
@@ -73,5 +72,5 @@ def begin(feature_vectors):
         cross_validator = CrossValidator(fv,num_partitions)
         # iterate across classifiers
         for j, classifier in enumerate(classifiers):
-            print "\nExperiment:", classifier_name[j], "on", fv_dataset_name[i]
+            print "\nExperiment:", classifier.name, "on", fv_dataset_name[i]
             cross_validator.classify(classifier)

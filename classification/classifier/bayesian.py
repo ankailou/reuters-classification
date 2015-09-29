@@ -22,6 +22,7 @@ class Bayesian:
             ---------------------
             instantiate a multinomial nb classifier
         """
+        self.name = "naive bayes"
         self.mnb = None
         self.label_space = []
         self.epsilon = epsilon
