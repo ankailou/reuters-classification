@@ -37,7 +37,8 @@ This python module contains the following files and directories:
         * crossvalidator.py - submodule containing functionality for cross validation 
     * classifiers
         * \_\_init\_\_.py
-        * knearestneighbor.py - submodule for knn classification
+        * knearestneighbor.py - submodule for brute force knn classification
+        * knearestneighbor_balltree.py - submodule for ball tree knn classification
         * decisiontree.py - submodule for decision tree classification 
         * bayesian.py - submodule for multinomial naive bayes classification
 * data/
@@ -61,10 +62,12 @@ Potential additional to future iterations of feature vector generation:
 * binning: equal-width & equal-depth (grouping by topics/places, part-of-speech, etc)
 * entropy-based discretization (partitioning based on entropy calculations)
 
-The `classification.py` file will produce the following 3x2 experiment results:
+The `classification.py` file will produce the following 4x2 experiment results:
 
-* KNN for feature vector 1
-* KNN for feature vector 2
+* Brute Force KNN for feature vector 1
+* Brute Force KNN for feature vector 2
+* Ball Tree KNN for feature vector 1
+* Ball Tree KNN for feature vector 2
 * Decision Tree for feature vector 1
 * Decision Tree for feature vector 2
 * Naive Bayes for feature vector 1
@@ -193,6 +196,12 @@ Once `classification.py` finishes execution, the results of the 2x2 experiments 
 * Daniel Jaung (jaung.2@osu.edu)
 
 ## Change Log
+2015-09-30 - version 2.0.4
+
+* added functionality for ball tree knn classification
+* complete organization restructuring to allow simple addition of feature vector & classifiers
+* supports wildcard import of submodules
+* report updated to reflect changes in the data
 
 2015-09-27 - version 2.0.3
 
