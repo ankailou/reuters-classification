@@ -9,7 +9,7 @@
 ################## modules required to compute decision tree ##################
 ###############################################################################
 
-from sklearn import tree
+from sklearn.tree import DecisionTreeClassifier
 
 ###############################################################################
 ############### class definition for decision tree classifier #################
@@ -61,7 +61,7 @@ class DecisionTree:
         for fv in training:
             fv_space.append(fv.vector)
             self.label_space.append(fv.topics)
-        clf = tree.DecisionTreeClassifier()
+        clf = DecisionTreeClassifier()
         self.dt = clf.fit(fv_space, self.label_space)
 
     def test_model(self,test):

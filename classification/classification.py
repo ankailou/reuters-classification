@@ -25,6 +25,7 @@ epsilon = 0.0
 ###############################################################################
 
 classifiers = [knearestneighbor.KNN(num_neighbors),
+               knearestneighbor_balltree.BallTreeKNN(num_neighbors,epsilon),
                decisiontree.DecisionTree(epsilon),
                bayesian.Bayesian(epsilon)]
 

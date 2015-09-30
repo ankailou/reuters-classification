@@ -1,7 +1,7 @@
 #!/usr/local/python-2.7.5/bin/python
 
-""" knearestneighbor.py
-    -------------------
+""" knearestneighbor_balltree.py
+    ----------------------------
     @author = Ankai Lou
 """
 
@@ -9,57 +9,40 @@
 ############### modules required to compute k-nearest neighbors ###############
 ###############################################################################
 
-import math
-import operator
+from sklearn.neighbors import KNeighborsClassifier
 
 ###############################################################################
 ############# class definition for k-nearest neighbor classifier ##############
 ###############################################################################
 
-class KNN:
-    def __init__(self,num_neighbors):
+class BallTreeKNN:
+    def __init__(self,num_neighbors,epsilon):
         """ function: constructor
             ---------------------
             instantiate a knn classifier
         """
-        self.name = "brute force k-nearest-neighbors"
-        self.training = None
+        self.name = "ball tree k-nearest-neighbors"
+        self.balltree = None
+        self.epsilon = epsilon
         self.num_neighbors = num_neighbors
 
     ###########################################################################
     #################### functions for knn classification #####################
     ###########################################################################
 
-    def __euclidean_distance(self,x1, x2):
-        """ function: euclidean_distance
-            ----------------------------
-            compute the distance between @x1 and @x2
-
-            :param x1: list of dimensions of a vector
-            :param x2: list of dimensions of a vector
-            :returns: float representing distance between @x1 and @x1
-        """
-        distance = 0.0
-        for i in range(len(x1)):
-            distance += pow( x1[i] - x2[i], 2)
-        return math.sqrt(distance)
-
-    def __get_knn(self,test):
-        """ function: get_knn
-            -----------------
-            get k nearest points in @training to the point @test
+    def __run_tree(self,test):
+        """ function: run_tree
+            ------------------
+            generate list of labels for a @test vector based on self.dt
 
             :param test: one feature vector to match to model
-            :returns: list of class labels of k nearest neighbors
+            :returns: list of class labels of decision tree traversal
         """
-        distances = []
-        for point in self.training:
-            dist = self.__euclidean_distance(test.vector,point.vector)
-            distances.append((point.topics,dist))
-        distances.sort(key=operator.itemgetter(1))
+        probabilities = self.balltree.predict_proba([test.vector])
         class_labels = []
-        for x in range(self.num_neighbors):
-            class_labels += distances[x][0]
+        for i, p in enumerate(probabilities[0]):
+            if p > self.epsilon:
+                class_labels += self.label_space[i]
         return class_labels
 
     ###########################################################################
@@ -73,7 +56,13 @@ class KNN:
 
             :param training: set of feature vectors used to construct model
         """
-        self.training = training
+        fv_space = []
+        self.label_space = []
+        for fv in training:
+            fv_space.append(fv.vector)
+            self.label_space.append(fv.topics)
+        clf = KNeighborsClassifier(n_neighbors=self.num_neighbors, algorithm='ball_tree')
+        self.balltree = clf.fit(fv_space, self.label_space)
 
     def test_model(self,test):
         """ function: test_model
@@ -85,7 +74,7 @@ class KNN:
         """
         accuracy = 0.0
         for fv in test:
-            labels = self.__get_knn(fv)
+            labels = self.__run_tree(fv)
             if len(set(labels) & set(fv.topics)) > 0:
                 accuracy += 1.0
         return accuracy
