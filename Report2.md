@@ -23,7 +23,7 @@ Report 2 - Classification
 * Predict the TOPICS class labels of test set of feature vectors representing Reuters articles
 * Generate two sets of feature vector datasets (one being a pared down version of the other)
 * Implement three different classifiers for the feature vectors datasets
-* Test the scalability, cost, and accuracy of the 3x2 set of experiments
+* Test the scalability, cost, and accuracy of the 4x2 set of experiments
 
 ## Proposed Solution
 
@@ -54,9 +54,11 @@ Report 2 - Classification
     * Cross validation was used with k = 5
     * Decision tree model was generated using sklearn.naive_bayes
     * Event model used to predict probabilities of different classifications
-* The 3x2 Experiements were performed:
+* The 4x2 Experiements were performed:
     * KNN using the standard feature vector
     * KNN using the pared-down feature vector
+    * KNN with ball tree using the standard feature vector
+    * KNN with ball tree using the pared-down feature vector
     * Decision-Tree using the standard feature vector
     * Decision-Tree using the pared-down feature vector      
     * Naive Bayes using the standard feature vector
@@ -113,7 +115,7 @@ Note that the results from the classification step will usually differ between i
 * For the multinomial naive bayes on the standard feature vector, across 5 iterations of cross-validation, the offline costs were 0.106421947479, 0.0985600948334, 0.10511803627, 0.0990388393402, and 0.0975611209869 seconds.
 * For the multinomial naive bayes on the pared feature vector, across 5 iterations of cross-validation, the offline costs were 0.0163910388947, 0.0164449214935, 0.017884016037, 0.0181641578674, and 0.0168759822845 seconds.
 
-The averages of the 3x2 experiment set is represented with the table:
+The averages of the 4x2 experiment set is represented with the table:
 
      | Feature Vector 1     | Feature Vector 2
 ---- | -------------------- | -----------------
@@ -141,7 +143,7 @@ From here, we can make the following observations:
 * For the multinomial naive bayes on the standard feature vector, across 5 iterations of cross-validation, the online costs were 0.000268861730263, 0.000266459883836, 0.00026320528101, 0.000256180132508, and 0.000272026768437 seconds.
 * For the multinomial naive bayes on the pared feature vector, across 5 iterations of cross-validation, the online costs were 0.000112104668188, 0.000112496986591, 0.000104349126261, 0.000106311979748, and 0.000105937321981 seconds.
 
-The averages of the 3x2 experiment set is represented with the table:
+The averages of the 4x2 experiment set is represented with the table:
 
      | Feature Vector 1    | Feature Vector 2
 ---- | ------------------- | -----------------
@@ -167,7 +169,7 @@ From here, we can make the following observations:
 * For the multinomial naive bayes on the standard feature vector, across 5 iterations of cross-validation, the accuracies of the classifier were 0.94708994709, 0.888888888889, 0.952380952381, 0.931216931217, and 0.94708994709.
 * For the multinomial naive bayes on the pared feature vector, across 5 iterations of cross-validation, the accuracies of the classifier were 0.936507936508, 0.830687830688, 0.904761904762, 0.904761904762, and 0.915343915344.
 
-The averages of the 3x2 experiment set is represented with the table:
+The averages of the 4x2 experiment set is represented with the table:
 
      | Feature Vector 1  | Feature Vector 2
 ---- | ----------------- | -----------------
